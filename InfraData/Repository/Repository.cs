@@ -13,7 +13,6 @@ namespace InfraData.Repository
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected IUnitOfWork unitOfWork = null;
-        protected Conexao Conexao { get; set; } = Conexao.SQLite;
 
         public Repository(IUnitOfWork unitOfWork)
         {
@@ -31,7 +30,7 @@ namespace InfraData.Repository
         }
         public bool CriarTabela(string query)
         {
-            return unitOfWork.Connection.CriarTabelas(Conexao, query, unitOfWork.Transaction);
+            return unitOfWork.Connection.CriarTabelas(query, unitOfWork.Transaction);
         }
 
         public virtual int Deletar(object id)

@@ -34,8 +34,8 @@ namespace Application
                 Container.Register<IUnitOfWork>(() => new UnitOfWork(ConfiguracaoBancoDados.ObterConexao()), Lifestyle.Singleton);
 
                 // REPOSITORIOS
-                //Container.Register<IGSCategoriaRepository, GSCategoriaRepository>(Lifestyle.Singleton);
-                //Container.Register<IGSCredencialRepository, GSCredencialRepository>(Lifestyle.Singleton);
+                 Container.Register<IGSCategoriaRepository, GSCategoriaRepository>(Lifestyle.Singleton);
+                 Container.Register<IGSCredencialRepository, GSCredencialRepository>(Lifestyle.Singleton);
 
                 // APP SERVICE
                 // Container.Register<IConfiguracaoAppService, ConfiguracaoAppService>(Lifestyle.Singleton);
