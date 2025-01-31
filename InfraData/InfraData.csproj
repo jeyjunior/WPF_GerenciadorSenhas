@@ -6,4 +6,30 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.1" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SimpleInjector" Version="5.5.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="JJ.NET.Core">
+      <HintPath>..\DLL\JJ.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.NET.CrossData">
+      <HintPath>..\DLL\JJ.NET.CrossData.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.NET.Data">
+      <HintPath>..\DLL\JJ.NET.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

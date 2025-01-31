@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="JJ.NET.Core">
+      <HintPath>..\DLL\JJ.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JJ.NET.CrossData">
+      <HintPath>..\DLL\JJ.NET.CrossData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
