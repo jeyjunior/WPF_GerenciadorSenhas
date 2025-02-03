@@ -26,7 +26,8 @@ namespace Application
         {
             try
             {
-                ConfiguracaoBancoDados.IniciarConfiguracao(Conexao.SQLite, "Gerenciador de Senhas", @"C:\GerenciadorDeSenhas");
+                string caminhoDestino = AppDomain.CurrentDomain.BaseDirectory;
+                ConfiguracaoBancoDados.IniciarConfiguracao(Conexao.SQLite, "Gerenciador de Senhas", caminhoDestino);
 
                 Container = new Container();
                 Container.Options.DefaultLifestyle = Lifestyle.Scoped;
@@ -49,7 +50,7 @@ namespace Application
                 Container = Bootstrap.Container;
                 Container.Verify();
 
-                //IniciarBaseDeDados();
+                IniciarBaseDeDados();
             }
             catch (SqlException ex)
             {
