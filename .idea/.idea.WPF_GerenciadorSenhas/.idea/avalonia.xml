@@ -3,7 +3,10 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="Presentation/App.axaml" value="Presentation/Presentation.csproj" />
         <entry key="Presentation/MainWindow.axaml" value="Presentation/Presentation.csproj" />
+        <entry key="Presentation/Styles/Cor.axaml" value="Presentation/Presentation.csproj" />
+        <entry key="Presentation/View/Principal.axaml" value="Presentation/Presentation.csproj" />
       </map>
     </option>
   </component>

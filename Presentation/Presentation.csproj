@@ -23,4 +23,28 @@
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <AvaloniaXaml Remove="ViewModel\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="ViewModel\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="ViewModel\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Remove="ViewModel\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AvaloniaResource Remove="ViewModel\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="ViewModel\**" />
+    </ItemGroup>
 </Project>
