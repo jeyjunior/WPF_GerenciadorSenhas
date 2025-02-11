@@ -14,7 +14,8 @@ using Domain.Interfaces;
 using InfraData.Repository;
 using JJ.NET.CrossData.Extensao;
 using Domain.Entidades;
-using static System.Net.Mime.MediaTypeNames;
+using Application.Interfaces;
+using Application.Services;
 
 namespace Application
 {
@@ -39,7 +40,7 @@ namespace Application
                  Container.Register<IGSCredencialRepository, GSCredencialRepository>(Lifestyle.Singleton);
 
                 // APP SERVICE
-                // Container.Register<IConfiguracaoAppService, ConfiguracaoAppService>(Lifestyle.Singleton);
+                Container.Register<ICredencialAppService, CredencialAppService>(Lifestyle.Singleton);
                 // Container.Register<IGSCredencialAppService, GSCredencialAppService>(Lifestyle.Singleton);
 
                 // VIEW MODELS
@@ -72,6 +73,7 @@ namespace Application
 
             CriarTabelas(uow);
             InserirInformacoesIniciais(uow);
+            InserirInformacoesTeste(uow);
         }
     
         private static void CriarTabelas(IUnitOfWork uow)
@@ -168,5 +170,137 @@ namespace Application
                 throw new Exception("Erro inesperado ao inserir informações iniciais", ex);
             }
         }
+
+
+        #region Teste
+        public static void InserirInformacoesTeste(IUnitOfWork uow)
+        {
+            var gSCredencialRepository = Container.GetInstance<IGSCredencialRepository>();
+            var random = new Random();
+
+            try
+            {
+                uow.Begin();
+
+                for (int i = 0; i < 200; i++)
+                {
+                    gSCredencialRepository.Adicionar(new GSCredencial
+                    {
+                        Credencial = GerarCredencial(random),
+                        Senha = GerarSenha(random),
+                        IVSenha = "Teste123",
+                        FK_GSCategoria = random.Next(1, 15),
+                        DataCriacao = GerarDataCriacao(random),
+                        DataModificacao = random.NextDouble() > 0.5 ? (DateTime?)GerarDataCriacao(random) : null  // Se necessário, a DataModificacao pode ser nula
+                    });
+                }
+
+                uow.Commit();
+            }
+            catch (SqlException ex)
+            {
+                uow.Rollback();
+                throw new Exception("Erro ao inserir informações iniciais", ex);
+            }
+            catch (IOException ex)
+            {
+                uow.Rollback();
+                throw new Exception("Erro ao acessar arquivos durante a inserção de dados", ex);
+            }
+            catch (Exception ex)
+            {
+                uow.Rollback();
+                throw new Exception("Erro inesperado ao inserir informações iniciais", ex);
+            }
+        }
+        private static string GerarCredencial(Random random)
+        {
+            int tipoCredencial = random.Next(1, 4);  // 1 = Login, 2 = Email, 3 = CPF
+
+            switch (tipoCredencial)
+            {
+                case 1:
+                    return GerarLogin(random);
+                case 2:
+                    return GerarEmail(random);
+                case 3:
+                    return GerarCPF(random);
+                default:
+                    return GerarLogin(random);
+            }
+        }
+        private static string GerarLogin(Random random)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            int length = random.Next(5, 15);
+            var login = new StringBuilder();
+
+            for (int i = 0; i < length; i++)
+            {
+                login.Append(chars[random.Next(chars.Length)]);
+            }
+
+            return login.ToString();
+        }
+        private static string GerarEmail(Random random)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz";
+            var localPart = new StringBuilder();
+            int localLength = random.Next(5, 10);
+            for (int i = 0; i < localLength; i++)
+            {
+                localPart.Append(chars[random.Next(chars.Length)]);
+            }
+
+            return localPart + "@gmail.com";
+        }
+        private static string GerarSenha(Random random)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?";
+            int senhaLength = random.Next(4, 33);
+            var senha = new StringBuilder();
+
+            for (int i = 0; i < senhaLength; i++)
+            {
+                senha.Append(chars[random.Next(chars.Length)]);
+            }
+
+            return senha.ToString();
+        }
+        private static DateTime GerarDataCriacao(Random random)
+        {
+            var startDate = new DateTime(2024, 1, 1);
+            var endDate = new DateTime(2025, 1, 1);
+            int range = (endDate - startDate).Days;
+
+            return startDate.AddDays(random.Next(range));
+        }
+        private static string GerarCPF(Random random)
+        {
+            int[] cpf = new int[11];
+
+            for (int i = 0; i < 9; i++)
+            {
+                cpf[i] = random.Next(0, 10);
+            }
+
+            cpf[9] = GerarDigitoVerificador(cpf, 10);
+
+            cpf[10] = GerarDigitoVerificador(cpf, 11);
+
+            return string.Join("", cpf.Take(3)) + "." + string.Join("", cpf.Skip(3).Take(3)) + "." + string.Join("", cpf.Skip(6).Take(3)) + "-" + string.Join("", cpf.Skip(9));
+        }
+        private static int GerarDigitoVerificador(int[] cpf, int peso)
+        {
+            int soma = 0;
+            for (int i = 0; i < peso - 1; i++)
+            {
+                soma += cpf[i] * (peso - i);
+            }
+
+            int digito = soma % 11;
+            return digito < 2 ? 0 : 11 - digito;
+        }
+        #endregion
     }
 }

@@ -1,50 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.1"/>
-        <PackageReference Include="Avalonia.Desktop" Version="11.2.1"/>
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1"/>
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.1"/>
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.2.1">
-            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
-            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
-        </PackageReference>
-    </ItemGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Application\Application.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <AvaloniaXaml Remove="ViewModel\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="ViewModel\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="ViewModel\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Remove="ViewModel\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AvaloniaResource Remove="ViewModel\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="ViewModel\**" />
-    </ItemGroup>
 </Project>
