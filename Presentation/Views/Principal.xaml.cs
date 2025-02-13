@@ -35,6 +35,18 @@ namespace Presentation.Views
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var ret = _credencialAppService.Pesquisar();
+
+            var resultado = ret.Select(i => new
+            {
+                PK_GSCredencial = i.PK_GSCredencial,
+                DataModificacao = i.DataModificacao != null ? i.DataModificacao.Value.ToShortDateString() : "",
+                Categoria = i.GSCategoria != null ? i.GSCategoria.Categoria : "",
+                Credencial = i.Credencial,
+                Senha = i.Senha,
+                Exibir = true,
+            }).ToList();
+
+            dtgCredencial.ItemsSource = resultado;
         }
     }
 }

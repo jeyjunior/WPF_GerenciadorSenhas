@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Presentation.Views"
+        xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="Principal" Height="450" Width="800"
+        Title="Principal" Height="480" Width="600" MinHeight="480" MinWidth="600"
         Loaded="Window_Loaded">
+
     <Grid Background="{DynamicResource Cinza13}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
@@ -14,5 +15,39 @@
             <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
 
+        <DataGrid Grid.Row="1" 
+                  Name="dtgCredencial"
+                  AutoGenerateColumns="False"
+                  SelectionUnit="FullRow"
+                  SelectionMode="Extended"
+                  CanUserReorderColumns="True"
+                  CanUserResizeRows="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="1" Header="PK_GSCredencial" Visibility="Hidden" Binding="{Binding PK_GSCredencial}"/>
+                <DataGridTextColumn Width="100" Header="DataModificacao" Visibility="Visible" Binding="{Binding DataModificacao}"/>
+                <DataGridTextColumn Width="*" Header="Categoria" Visibility="Visible" Binding="{Binding Categoria}"/>
+                <DataGridTextColumn Width="*" Header="Credencial" Visibility="Visible" Binding="{Binding Credencial}"/>
+
+                <DataGridTemplateColumn Header="" Width="42" MaxWidth="42" MinWidth="42">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                                <Button x:Name="btnCopiarCredencial" Content="Copiar"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTextColumn Width="*" Header="Senha" Visibility="Visible" Binding="{Binding Senha}"/>
+                
+                <DataGridTemplateColumn Header="" Width="42" MaxWidth="42" MinWidth="42">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="btnCopiarSenha" Content="Copiar"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
+
