@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enumeradores;
 using JJ.NET.Core.Validador;
 using JJ.NET.CrossData.Atributo;
 
@@ -34,4 +35,11 @@ namespace Domain.Entidades
         public ValidarResultado Validar { get; set; } = new ValidarResultado();
     }
 
+    public class GSCredencialPesquisaRequest
+    {
+        public string Valor { get; set; }
+        public TipoDePesquisa TipoDePesquisa { get; set; }
+
+        public ValidarResultado ValidarResultado { get; set; }
+    }
 }
