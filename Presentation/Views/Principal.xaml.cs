@@ -13,11 +13,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Domain.Interfaces;
-using Application;
-using Application.Interfaces;
-using Domain.Entidades;
-using Domain.Enumeradores;
 using JJ.NET.Core.Extensoes;
+using Domain.Enumeradores;
+using Domain.Entidades;
+using Application.Interfaces;
+using Application;
 
 namespace Presentation.Views
 {
@@ -108,5 +108,25 @@ namespace Presentation.Views
             }
         }
         #endregion
+
+        private void btnAdicionar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnConfig_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnExcluir_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAlterar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

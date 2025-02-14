@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="Principal" Height="480" Width="600" MinHeight="480" MinWidth="600"
+        Background="{StaticResource Cinza13}"
+        Title="Principal" Height="768" Width="1366" MinHeight="768" MinWidth="1366" MaxHeight="768" MaxWidth="1366"
         Loaded="Window_Loaded">
 
-    <Grid Background="{DynamicResource Cinza13}"> 
+    <Grid Background="{DynamicResource Cinza13}" Margin="32, 12"> 
         <Grid.RowDefinitions>
             <RowDefinition Height="8"/>
-            <RowDefinition Height="32"/>    <!-- Cabeçalho -->
+            <RowDefinition Height="42"/>    <!-- Cabeçalho -->
             <RowDefinition Height="8"/>
             <RowDefinition Height="*"/>     <!-- Conteúdo -->
             <RowDefinition Height="8"/>
@@ -20,22 +21,53 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="48"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*" MinWidth="100" MaxWidth="600"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="*" MinWidth="50"/>
+                <ColumnDefinition Width="42"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="42"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="42"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="42"/>
             </Grid.ColumnDefinitions>
 
-            <ComboBox Grid.Column="1"
+            <ComboBox Grid.Column="0"
                       x:Name="cboTipoDePesquisa"/>
             
-            <TextBox Grid.Column="2"
+            <TextBox Grid.Column="1"
                      x:Name="txtPesquisar"/>
 
-            <Button Grid.Column="3"
+            <Button Grid.Column="2"
+                    Content="Pesquisar"
                     x:Name="btnPesquisar"
                     Click="btnPesquisar_Click"/>
+
+            <Button Grid.Column="4"
+                    Background="{StaticResource Cinza1}"
+                    Content=""
+                    x:Name="btnConfig"
+                    Click="btnConfig_Click"/>
+
+            <Button Grid.Column="6"
+                    Background="{StaticResource Vermelho2}"
+                    Content=""
+                    x:Name="btnExcluir"
+                    Click="btnExcluir_Click"/>
+
+            <Button Grid.Column="8"
+                    Background="{StaticResource Laranja}"
+                    Content=""
+                    x:Name="btnAlterar"
+                    Click="btnAlterar_Click"/>
+
+            <Button Grid.Column="10"
+                    Background="{StaticResource Verde1}"
+                    Content=""
+                    x:Name="btnAdicionar"
+                    Click="btnAdicionar_Click"/>
         </Grid>
             
         <DataGrid Grid.Row="3" 
@@ -43,8 +75,9 @@
                   Name="dtgCredencial"
                   AutoGenerateColumns="False"
                   SelectionUnit="FullRow"
-                  SelectionMode="Extended"
+                  SelectionMode="Single"
                   CanUserReorderColumns="True"
+                  ColumnHeaderHeight="48"
                   CanUserResizeRows="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="1" Header="PK_GSCredencial" Visibility="Hidden" Binding="{Binding PK_GSCredencial}"/>
