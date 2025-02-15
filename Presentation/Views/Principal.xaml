@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
         Background="{StaticResource Cinza13}"
-        Title="Principal" Height="768" Width="1366" MinHeight="768" MinWidth="1366" MaxHeight="768" MaxWidth="1366"
+        WindowStartupLocation="CenterScreen"
+        Title="Principal" Height="768" Width="1366" MinHeight="768" MinWidth="1366" 
         Loaded="Window_Loaded">
 
     <Grid Background="{DynamicResource Cinza13}" Margin="32, 12"> 
@@ -76,15 +77,46 @@
                   AutoGenerateColumns="False"
                   SelectionUnit="FullRow"
                   SelectionMode="Single"
-                  CanUserReorderColumns="True"
-                  ColumnHeaderHeight="48"
-                  CanUserResizeRows="True">
+                  
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="False"
+                  CanUserResizeRows="False"
+                  CanUserAddRows="False"
+                  RowHeight="32"
+                  ColumnHeaderHeight="48">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="1" Header="PK_GSCredencial" Visibility="Hidden" Binding="{Binding PK_GSCredencial}"/>
-                <DataGridTextColumn Width="100" Header="Modificação" Visibility="Visible" Binding="{Binding DataModificacao}"/>
-                <DataGridTextColumn Width="*" Header="Categoria" Visibility="Visible" Binding="{Binding Categoria}"/>
-                <DataGridTextColumn Width="*" Header="Credencial" Visibility="Visible" Binding="{Binding Credencial}"/>
+                <DataGridTemplateColumn  Width="0" Header="PK_GSCredencial" Visibility="Collapsed">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PK_GSCredencial}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
+                <DataGridTemplateColumn  Width="100" Header="Modificação" Visibility="Visible">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DataModificacao}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="250" Header="Categoria" Visibility="Visible" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Categoria}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="*" Header="Credencial" Visibility="Visible" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Credencial}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Header="" Width="48" MaxWidth="48" MinWidth="48">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -92,20 +124,24 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTextColumn Width="*" Header="Senha" Visibility="Visible" Binding="{Binding Senha}"/>
-                
-                <DataGridTemplateColumn Header="" Width="42" MaxWidth="42" MinWidth="42">
+
+                <DataGridTemplateColumn Width="*" Header="Senha" Visibility="Visible">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button x:Name="btnExibirSenha" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Text="&#xE001;"  FontFamily="Segoe UI Symbol" />
-                            </Button>
+                            <TextBlock Text="{Binding SenhaVisivel}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Copiar" Width="48" MaxWidth="48" MinWidth="48">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="btnExibirSenha" Tag="" Content="Exibir" Click="btnExibirSenha_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            <DataGridTemplateColumn Header="Copiar" Width="48" MaxWidth="48" MinWidth="48">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button x:Name="btnCopiarSenha" Content="Copiar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

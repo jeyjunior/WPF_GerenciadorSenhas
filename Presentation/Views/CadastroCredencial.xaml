@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Background="{StaticResource Cinza13}"
         Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
         Title="CadastroCredencial" Height="600" Width="540" MinHeight="600" MinWidth="540" MaxHeight="600" MaxWidth="540">
     
     <Grid Margin="32,0">
@@ -75,8 +76,8 @@
                     <ColumnDefinition Width="48"/>
                 </Grid.ColumnDefinitions>
 
-                <PasswordBox Grid.Column="0" x:Name="txtSenha"  Password="" VerticalContentAlignment="Center" Visibility="Visible" AllowDrop="True"/>
-                <TextBox x:Name="txtSenhaVisivel" Grid.Column="0" VerticalContentAlignment="Center" Visibility="Collapsed"/>
+                <PasswordBox Grid.Column="0" x:Name="txtSenha" PasswordChanged="txtSenha_PasswordChanged"  Password="" VerticalContentAlignment="Center" Visibility="Visible" AllowDrop="True"/>
+                <TextBox x:Name="txtSenhaVisivel" Grid.Column="0" TextChanged="txtSenhaVisivel_TextChanged" VerticalContentAlignment="Center" Visibility="Collapsed"/>
                 <Button Grid.Column="1" x:Name="btnExibirSenha" Click="btnExibirSenha_Click"/>
             </Grid>
         </Grid>

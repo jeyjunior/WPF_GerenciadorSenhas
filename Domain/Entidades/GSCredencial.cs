@@ -35,6 +35,16 @@ namespace Domain.Entidades
         public ValidarResultado ValidarResultado { get; set; } = new ValidarResultado();
     }
 
+    public class CredencialView
+    {
+        public int PK_GSCredencial { get; set; }
+        public string DataModificacao { get; set; }
+        public string Categoria { get; set; }
+        public string Credencial { get; set; }
+        public string SenhaVisivel { get; set; }
+        public bool ExibirSenha { get; set; }
+    }
+
     public class GSCredencialPesquisaRequest
     {
         public string Valor { get; set; }

@@ -57,18 +57,38 @@ namespace Presentation.Views
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
-            var gSCredencial = new GSCredencial 
-            { 
-                PK_GSCredencial = _gSCredencial.PK_GSCredencial,
-                Credencial = txtCredencial.Text,
-                Senha = txtSenha.Password,
-                IVSenha = _gSCredencial.IVSenha,
-                DataCriacao = (_gSCredencial.PK_GSCredencial > 0) ? _gSCredencial.DataCriacao : DateTime.Now,
-                DataModificacao = null,
-                FK_GSCategoria = (int)cboCategoria.SelectedValue,
-            };
+            try
+            {
+                var gSCredencial = new GSCredencial
+                {
+                    PK_GSCredencial = _gSCredencial.PK_GSCredencial,
+                    Credencial = txtCredencial.Text,
+                    Senha = txtSenha.Password,
+                    IVSenha = _gSCredencial.IVSenha,
+                    DataCriacao = (_gSCredencial.PK_GSCredencial > 0) ? _gSCredencial.DataCriacao : DateTime.Now,
+                    DataModificacao = null,
+                    FK_GSCategoria = (int)cboCategoria.SelectedValue,
+                };
 
-            var result = _credencialAppService.SalvarCredencial(gSCredencial);
+                var result = _credencialAppService.SalvarCredencial(gSCredencial);
+
+                if (!gSCredencial.ValidarResultado.EhValido)
+                    throw new Exception(gSCredencial.ValidarResultado.Erros.ToList()[0]);
+
+                if (!result)
+                    throw new Exception("Falha ao tentar salvar credencial, certifique-se que todas as informações estão corretas.");
+
+                MessageBox.Show("Credencial salva com sucesso.");
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                txtCredencial.Focus();
+            }
         }
 
         private void btnConfigurarCredencial_Click(object sender, RoutedEventArgs e)
@@ -111,7 +131,18 @@ namespace Presentation.Views
         {
 
         }
+        
+        private void txtSenha_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtSenha.IsVisible)
+                txtSenhaVisivel.Text = txtSenha.Password;
+        }
 
+        private void txtSenhaVisivel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtSenhaVisivel.IsVisible)
+                txtSenha.Password = txtSenhaVisivel.Text;
+        }
         #endregion
 
         #region Metodos
