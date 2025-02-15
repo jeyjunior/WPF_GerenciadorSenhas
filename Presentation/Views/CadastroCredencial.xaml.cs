@@ -51,7 +51,12 @@ namespace Presentation.Views
 
         }
 
-        private void btnCadastrarCategoria_Click(object sender, RoutedEventArgs e)
+        private void btnConfigurarCredencial_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnGerarCredencialAleatoria_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -82,15 +87,11 @@ namespace Presentation.Views
             }
         }
 
-        private void btnConfigurarCredencial_Click(object sender, RoutedEventArgs e)
+        private void btnCadastrarCategoria_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void btnGerarCredencialAleatoria_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         #endregion
 
         #region Metodos
