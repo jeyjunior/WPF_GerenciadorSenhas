@@ -12,5 +12,6 @@ namespace Application.Interfaces
     {
         IEnumerable<GSCredencial> Pesquisar(GSCredencialPesquisaRequest requisicao);
         IEnumerable<Item> ObterTipoDePesquisa();
+        IEnumerable<GSCategoria> ObterCategorias();
     }
 }

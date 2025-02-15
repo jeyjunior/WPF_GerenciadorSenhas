@@ -1,0 +1,116 @@
+﻿<Window x:Class="Presentation.Views.CadastroCredencial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presentation.Views"
+        mc:Ignorable="d"
+        Background="{StaticResource Cinza13}"
+        Loaded="Window_Loaded"
+        Title="CadastroCredencial" Height="600" Width="540" MinHeight="600" MinWidth="540" MaxHeight="600" MaxWidth="540">
+    
+    <Grid Margin="32,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            
+            <RowDefinition Height="105"/>
+            <RowDefinition Height="32"/>
+            
+            <RowDefinition Height="105"/>
+            <RowDefinition Height="32"/>
+
+            <RowDefinition Height="105"/>
+            <RowDefinition Height="32"/>
+
+            <RowDefinition Height="68"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Cadastro de Credencial" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Branco}" FontSize="18" FontWeight="Bold"/>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="48"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Credencial" FontSize="20" FontWeight="Regular" Foreground="{DynamicResource Branco}" VerticalAlignment="Bottom"/>
+                <Button Grid.Column="1" x:Name="btnGerarCredencialAleatoria" Click="btnGerarCredencialAleatoria_Click" />
+                <Button Grid.Column="3" x:Name="btnConfigurarCredencial" Click="btnConfigurarCredencial_Click" />
+            </Grid>
+
+            <TextBox Grid.Row="2" x:Name="txtCredencial"/>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="48"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Column="0" Content="Senha" FontSize="20" FontWeight="Regular" Foreground="{DynamicResource Branco}" VerticalAlignment="Bottom"/>
+                <Button Grid.Column="1" x:Name="btnGerarSenhaAleatoria" Click="btnGerarSenhaAleatoria_Click" />
+                <Button Grid.Column="3" x:Name="btnConfigurarSenha" Click="btnConfigurarSenha_Click" />
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+
+                <PasswordBox Grid.Column="0" x:Name="txtSenha"  Password="12345678" VerticalContentAlignment="Center" Visibility="Visible" AllowDrop="True"/>
+                <TextBox x:Name="txtSenhaVisivel" Grid.Column="0" VerticalContentAlignment="Center" Visibility="Collapsed"/>
+                <Button Grid.Column="1" x:Name="btnExibirSenha" Click="btnExibirSenha_Click"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="48"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Categoria" FontSize="20" FontWeight="Regular" Foreground="{DynamicResource Branco}" VerticalAlignment="Bottom"/>
+                <Button Grid.Column="2" x:Name="btnCadastrarCategoria" Click="btnCadastrarCategoria_Click"/>
+            </Grid>
+
+            <ComboBox Grid.Row="2" x:Name="cboCategoria"/>
+        </Grid>
+
+        <Grid Grid.Row="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="32"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0" Content="Cancelar" x:Name="btnCancelar" Click="btnCancelar_Click"/>
+            <Button Grid.Column="2" Content="Salvar" x:Name="btnSalvar" Click="btnSalvar_Click"/>
+        </Grid>
+
+    </Grid>
+</Window>

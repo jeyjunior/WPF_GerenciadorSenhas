@@ -111,7 +111,8 @@ namespace Presentation.Views
 
         private void btnAdicionar_Click(object sender, RoutedEventArgs e)
         {
-
+            CadastroCredencial cadastroCredencial = new CadastroCredencial();
+            cadastroCredencial.ShowDialog();
         }
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
