@@ -12,6 +12,7 @@ using JJ.NET.Core.DTO;
 using JJ.NET.Core.Extensoes;
 using JJ.NET.Core.Validador;
 using JJ.NET.CrossData.DTO;
+using JJ.NET.Cryptography;
 
 namespace Application.Services
 {
@@ -71,6 +72,74 @@ namespace Application.Services
         public IEnumerable<GSCategoria> ObterCategorias()
         {
             return gSCategoriaRepository.ObterLista();
+        }
+        
+        public bool SalvarCredencial(GSCredencial gSCredencial)
+        {
+            if (gSCredencial == null)
+                return false;
+
+            bool atualizarRegistro = (gSCredencial.PK_GSCredencial > 0);
+
+            gSCredencial.ValidarResultado = new ValidarResultado();
+
+            if (gSCredencial.Credencial.ObterValorOuPadrao("").Trim() == "")
+            {
+                gSCredencial.ValidarResultado.Adicionar("Credencial é um campo obrigatório.");
+                return false;
+            }
+
+            if (gSCredencial.Senha.ObterValorOuPadrao("").Trim() == "")
+            {
+                gSCredencial.ValidarResultado.Adicionar("Senha é um campo obrigatório.");
+                return false;
+            }
+
+            var credencial = new GSCredencial
+            {
+                PK_GSCredencial = gSCredencial.PK_GSCredencial,
+                Credencial = gSCredencial.Credencial,
+                DataCriacao = gSCredencial.DataCriacao,
+                DataModificacao = (atualizarRegistro) ? DateTime.Now : gSCredencial.DataCriacao,
+            };
+
+            if (gSCredencial.FK_GSCategoria != null)
+                credencial.FK_GSCategoria = gSCredencial.FK_GSCategoria;
+
+            var criptografarRequest = new CriptografarRequest 
+            { 
+                TipoCriptografia = JJ.NET.Cryptography.Enumerador.TipoCriptografia.AES,
+                Valor = gSCredencial.Senha,
+                IV = gSCredencial.IVSenha.ObterValorOuPadrao(""),
+            };
+
+            var criptografarResult = Criptografia.Criptografar(criptografarRequest);
+
+            if (criptografarResult.Erro.ObterValorOuPadrao("").Trim() != "")
+            {
+                gSCredencial.ValidarResultado.Adicionar(criptografarResult.Erro);
+                return false;
+            }
+
+            credencial.Senha = criptografarResult.Valor;
+            credencial.IVSenha = criptografarResult.IV;
+
+            if (atualizarRegistro)
+            {
+                var ret = gSCredencialRepository.Atualizar(credencial);
+
+                if (ret > 0)
+                    return true;
+            }
+            else
+            {
+                var ret = gSCredencialRepository.Adicionar(credencial);
+
+                if (ret > 0)
+                    return true;
+            }
+
+            return false;
         }
         #endregion
     }

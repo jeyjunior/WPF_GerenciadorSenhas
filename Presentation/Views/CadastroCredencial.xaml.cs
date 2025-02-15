@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Application;
 using Application.Interfaces;
+using Domain.Entidades;
+using Domain.Enumeradores;
+using JJ.NET.Core.Extensoes;
 
 namespace Presentation.Views
 {
@@ -48,7 +51,18 @@ namespace Presentation.Views
 
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
+            var gSCredencial = new GSCredencial 
+            { 
+                PK_GSCredencial = 0,
+                Credencial = txtCredencial.Text,
+                Senha = txtSenha.Password,
+                IVSenha = "",
+                DataCriacao = DateTime.Now,
+                DataModificacao = null,
+                FK_GSCategoria = (int)cboCategoria.SelectedValue,
+            };
 
+            var result = _credencialAppService.SalvarCredencial(gSCredencial);
         }
 
         private void btnConfigurarCredencial_Click(object sender, RoutedEventArgs e)

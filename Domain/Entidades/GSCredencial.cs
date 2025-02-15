@@ -32,7 +32,7 @@ namespace Domain.Entidades
         public GSCategoria GSCategoria { get; set; }
 
         [Editavel(false)]
-        public ValidarResultado Validar { get; set; } = new ValidarResultado();
+        public ValidarResultado ValidarResultado { get; set; } = new ValidarResultado();
     }
 
     public class GSCredencialPesquisaRequest
