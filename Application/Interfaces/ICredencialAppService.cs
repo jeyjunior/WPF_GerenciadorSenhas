@@ -11,6 +11,7 @@ namespace Application.Interfaces
     public interface ICredencialAppService
     {
         IEnumerable<GSCredencial> Pesquisar(GSCredencialPesquisaRequest requisicao);
+        GSCredencial PesquisarPorID(int PK_GSCredencial);
         IEnumerable<Item> ObterTipoDePesquisa();
         IEnumerable<GSCategoria> ObterCategorias();
         bool SalvarCredencial(GSCredencial gSCredencial);

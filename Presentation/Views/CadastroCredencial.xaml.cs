@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Application;
 using Application.Interfaces;
+using Application.Services;
 using Domain.Entidades;
 using Domain.Enumeradores;
 using JJ.NET.Core.Extensoes;
@@ -23,17 +24,22 @@ namespace Presentation.Views
     {
         #region Interface
         private readonly ICredencialAppService _credencialAppService;
+        private readonly IConfiguracaoAppService _configuracaoAppService;
         #endregion
 
         #region Propriedades
+        private GSCredencial _gSCredencial;
         #endregion
 
         #region Construtor
-        public CadastroCredencial()
+        public CadastroCredencial(GSCredencial gSCredencial = null)
         {
             InitializeComponent();
 
             _credencialAppService = Bootstrap.Container.GetInstance<ICredencialAppService>();
+            _configuracaoAppService = Bootstrap.Container.GetInstance<IConfiguracaoAppService>();
+
+            _gSCredencial = (gSCredencial != null) ? gSCredencial : new GSCredencial();
         }
         #endregion
 
@@ -41,7 +47,7 @@ namespace Presentation.Views
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             BindComboBoxCategoria();
-            LimparComponentes();
+            AtualizarComponentes();
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
@@ -53,11 +59,11 @@ namespace Presentation.Views
         {
             var gSCredencial = new GSCredencial 
             { 
-                PK_GSCredencial = 0,
+                PK_GSCredencial = _gSCredencial.PK_GSCredencial,
                 Credencial = txtCredencial.Text,
                 Senha = txtSenha.Password,
-                IVSenha = "",
-                DataCriacao = DateTime.Now,
+                IVSenha = _gSCredencial.IVSenha,
+                DataCriacao = (_gSCredencial.PK_GSCredencial > 0) ? _gSCredencial.DataCriacao : DateTime.Now,
                 DataModificacao = null,
                 FK_GSCategoria = (int)cboCategoria.SelectedValue,
             };
@@ -109,11 +115,36 @@ namespace Presentation.Views
         #endregion
 
         #region Metodos
-        private void LimparComponentes()
+        private void AtualizarComponentes()
         {
-            txtCredencial.Text = "";
-            txtSenha.Password = "";
-            cboCategoria.SelectedIndex = 0;
+            if (_gSCredencial.PK_GSCredencial == 0)
+            {
+                lblTitulo.Content = "Cadastrar Credencial";
+
+                txtCredencial.Text = "";
+                txtSenha.Password = "";
+                cboCategoria.SelectedIndex = 0;
+            }
+            else
+            {
+                lblTitulo.Content = "Atualizar Credencial";
+
+                var criptografiaRequest = new CriptografiaRequest { Valor = _gSCredencial.Senha, IV = _gSCredencial.IVSenha };
+                string senha = _configuracaoAppService.Descriptografar(criptografiaRequest);
+                
+                if (!criptografiaRequest.ValidarResultado.EhValido)
+                {
+                    // AVISAR ERRO COM MENSAGEM PERSONALIZADA
+                    throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
+                    this.Close();
+                }
+
+                txtSenha.Password = senha;
+                txtCredencial.Text = _gSCredencial.Credencial;
+
+                if (_gSCredencial.FK_GSCategoria != null)
+                    cboCategoria.SelectedValue = _gSCredencial.FK_GSCategoria.ObterValorOuPadrao(0);
+            }
 
             txtCredencial.Focus();
         }

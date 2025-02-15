@@ -64,6 +64,10 @@ namespace Application.Services
             return gSCredencialRepository.ObterLista(condicao);
         }
 
+        public GSCredencial PesquisarPorID(int PK_GSCredencial)
+        {
+            return gSCredencialRepository.Obter(PK_GSCredencial);
+        }
         public IEnumerable<Item> ObterTipoDePesquisa()
         {
             return Enum.GetValues(typeof(TipoDePesquisa)).Cast<TipoDePesquisa>().Select(tp => new Item { ID = ((int)tp).ToString(), Nome = tp.ToString() });

@@ -41,7 +41,7 @@ namespace Application
 
                 // APP SERVICE
                 Container.Register<ICredencialAppService, CredencialAppService>(Lifestyle.Singleton);
-                // Container.Register<IGSCredencialAppService, GSCredencialAppService>(Lifestyle.Singleton);
+                Container.Register<IConfiguracaoAppService, ConfiguracaoAppService>(Lifestyle.Singleton);
 
                 // VIEW MODELS
                 // Bootstrap.Container.Register<IConfiguracaoViewModel, ConfiguracaoViewModel>(Lifestyle.Singleton);

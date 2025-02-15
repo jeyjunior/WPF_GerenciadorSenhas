@@ -127,7 +127,26 @@ namespace Presentation.Views
 
         private void btnAlterar_Click(object sender, RoutedEventArgs e)
         {
+            if (dtgCredencial.Items.Count <= 0)
+                return;
 
+            var gSCredencialSelecionada = dtgCredencial.SelectedItem;
+
+            if (gSCredencialSelecionada == null)
+                return;
+
+            var pK_GSCredencial = gSCredencialSelecionada.GetType().GetProperty("PK_GSCredencial")?.GetValue(gSCredencialSelecionada); ;
+
+            if (pK_GSCredencial == null)
+                return;
+
+            var gSCredencial = _credencialAppService.PesquisarPorID(pK_GSCredencial.ObterValorOuPadrao(0));
+
+            if (gSCredencial != null)
+            {
+                CadastroCredencial cadastroCredencial = new CadastroCredencial(gSCredencial);
+                cadastroCredencial.ShowDialog();
+            }
         }
     }
 }
