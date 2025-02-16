@@ -9,8 +9,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="bPrincipal" Background="{DynamicResource Cinza10}" 
-                            Margin="0,2,10,2" Height="50">
+                    <Border x:Name="bPrincipal" Background="{DynamicResource Cinza10}" CornerRadius="5" Margin="0,2,10,2" Height="50"> 
+                        
                         <Grid x:Name="gPrincipal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" MinWidth="150" MaxWidth="150"/>
@@ -19,7 +19,7 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="120" MinWidth="120"/>
+                                <ColumnDefinition Width="90" MinWidth="90"/>
                             </Grid.ColumnDefinitions>
 
                             <!-- Coluna 0: Categoria e Data de Modificação -->
@@ -31,15 +31,15 @@
                             </Border>
 
                             <!-- Coluna 2: Credencial -->
-                            <Grid Grid.Column="2" Margin="5,0" MinWidth="150">
+                            <Grid Grid.Column="2" Margin="5,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="30"/>
                                 </Grid.ColumnDefinitions>
 
-                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center" MinWidth="150">
                                     <TextBlock Text="Credencial" FontSize="11" Foreground="{StaticResource Cinza1}" Margin="0,0,0,2"/>
-                                    <TextBlock Text="{Binding Credencial}" TextWrapping="Wrap"  FontSize="11" Foreground="{StaticResource Branco}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Credencial}" FontSize="11" Foreground="{StaticResource Branco}" FontWeight="Bold"/>
                                 </StackPanel>
 
                                 <Button Grid.Column="1" Style="{StaticResource btnPadrao28}" Background="{StaticResource Nenhuma}">
@@ -58,16 +58,16 @@
                                     <ColumnDefinition Width="30"/>
                                 </Grid.ColumnDefinitions>
 
-                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center"  MinWidth="150">
                                     <TextBlock Text="Senha" FontSize="11" Foreground="{StaticResource Cinza1}" Margin="0,0,0,2"/>
-                                    <TextBlock Text="{Binding SenhaVisivel}" TextWrapping="Wrap" FontSize="11" Foreground="{StaticResource Branco}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding SenhaVisivel, UpdateSourceTrigger=PropertyChanged}" FontSize="11" Foreground="{StaticResource Branco}" FontWeight="Bold"/>
                                 </StackPanel>
 
-                                <Button Grid.Column="1" Style="{StaticResource btnPadrao28}" Background="{StaticResource Nenhuma}">
+                                <Button x:Name="btnExibirSenha" Grid.Column="1" Style="{StaticResource btnPadrao28}" Command="{Binding ExibirSenhaCommand}" Background="{StaticResource Nenhuma}">
                                     <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE890;"/>
                                 </Button>
 
-                                <Button Grid.Column="2" Style="{StaticResource btnPadrao28}" Background="{StaticResource Nenhuma}">
+                                <Button x:Name="btnCopiarSenha" Grid.Column="2" Style="{StaticResource btnPadrao28}" Background="{StaticResource Nenhuma}">
                                     <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE8C8;"/>
                                 </Button>
                             </Grid>
@@ -76,13 +76,15 @@
                             <Border Grid.Column="5"  Background="{DynamicResource Cinza7}" Width="1" Height="30"/>
 
                             <StackPanel Grid.Column="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
-                                <Button Style="{StaticResource btnPadrao32}" Margin="0,0,4,0" Background="{DynamicResource Vermelho2}">
+
+                                <Button x:Name="btnExcluir" Style="{StaticResource btnPadrao32}"  Background="{DynamicResource Vermelho2}" Command="{Binding ExcluirCommand}"  Margin="0,0,4,0" >
                                     <TextBlock Style="{StaticResource txbGlyphTemplate18}" Text="&#xE107;"/>
                                 </Button>
 
-                                <Button Style="{StaticResource btnPadrao32}" Margin="4,0,0,0" Background="{DynamicResource  Laranja}">
+                                <Button x:Name="btnAlterar" Style="{StaticResource btnPadrao32}" Background="{DynamicResource Laranja}" Command="{Binding AlterarCommand}" Margin="4,0,0,0" >
                                     <TextBlock Style="{StaticResource txbGlyphTemplate18}" Text="&#xE70F;"/>
                                 </Button>
+
                             </StackPanel>
                         </Grid>
                     </Border>

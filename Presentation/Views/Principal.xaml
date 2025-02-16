@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Background="{StaticResource Cinza13}"
         WindowStartupLocation="CenterScreen"
-        Title="Principal" Height="768" Width="1366" MinHeight="400" MinWidth="590" 
+        Title="Principal" Height="768" Width="1366" MinHeight="400" MinWidth="795" 
         Loaded="Window_Loaded">
 
     <Grid Background="{DynamicResource Cinza13}" Margin="32, 12"> 
@@ -74,6 +74,7 @@
 
         <ListBox x:Name="listaCredenciais"
                  Grid.Row="3" 
+                 
                  BorderBrush="{StaticResource Nenhuma}" 
                  BorderThickness="0" Background="{StaticResource Nenhuma}"
                  ItemsSource="{Binding Credenciais}"

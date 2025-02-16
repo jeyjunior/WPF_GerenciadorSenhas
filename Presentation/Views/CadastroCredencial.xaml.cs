@@ -64,7 +64,7 @@ namespace Presentation.Views
                     PK_GSCredencial = _gSCredencial.PK_GSCredencial,
                     Credencial = txtCredencial.Text,
                     Senha = txtSenha.Password,
-                    IVSenha = _gSCredencial.IVSenha,
+                    IVSenha = _gSCredencial.IVSenha.ObterValorOuPadrao(""),
                     DataCriacao = (_gSCredencial.PK_GSCredencial > 0) ? _gSCredencial.DataCriacao : DateTime.Now,
                     DataModificacao = null,
                     FK_GSCategoria = (int)cboCategoria.SelectedValue,

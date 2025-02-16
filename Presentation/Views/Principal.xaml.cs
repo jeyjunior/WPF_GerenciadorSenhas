@@ -193,32 +193,58 @@ namespace Presentation.Views
         {
             if (gSCredencials != null)
             {
-                var resultado = gSCredencials.Select(i => new CredencialView
+                var resultado = gSCredencials.Select(i => new CredencialView(_configuracaoAppService)
                 {
                     PK_GSCredencial = i.PK_GSCredencial,
-                    DataModificacao = i.DataModificacao != null ? i.DataModificacao.Value.ToShortDateString() : "",
-                    Categoria = i.GSCategoria != null ? i.GSCategoria.Categoria : "",
+                    DataModificacao = i.DataModificacao?.ToShortDateString() ?? "",
+                    Categoria = i.GSCategoria?.Categoria ?? "",
                     Credencial = i.Credencial,
-                    SenhaVisivel = i.Senha.Ocultar(), // Inicialmente oculta a senha
+                    SenhaVisivel = OcultarSenha(i.Senha, i.IVSenha),
+                    SenhaCriptografada = i.Senha,
+                    SenhaIV = i.IVSenha,
+                    
+                    // Define ações para os botões
+                    OnExcluir = ExcluirItem,
+                    OnAlterar = AlterarItem
                 }).ToList();
 
                 listaCredenciais.ItemsSource = resultado;
             }
             else
             {
-                listaCredenciais.ItemsSource = new List<CredencialView>
-                {
-                    new CredencialView
-                    {
-                        PK_GSCredencial = 0,
-                        DataModificacao = "",
-                        Categoria = "",
-                        Credencial = "",
-                        SenhaVisivel = ""
-                    }
-                };
+                listaCredenciais.ItemsSource = new List<CredencialView>();
             }
         }
+
+        private string OcultarSenha(string senhaCriptografada, string senhaIV)
+        {
+            var criptografiaRequest = new CriptografiaRequest { Valor = senhaCriptografada, IV = senhaIV };
+
+            string senhaDescriptografada = _configuracaoAppService.Descriptografar(criptografiaRequest);
+
+            if (!criptografiaRequest.ValidarResultado.EhValido)
+                throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
+
+            return senhaDescriptografada.Ocultar();
+        }
+
+        private void ExcluirItem(int id)
+        {
+            var confirmacao = MessageBox.Show("Deseja excluir esta credencial?", "Confirmação", MessageBoxButton.YesNo);
+            if (confirmacao == MessageBoxResult.Yes)
+            {
+                // Lógica para excluir
+                MessageBox.Show($"Credencial {id} excluída.");
+                //AtualizarLista();
+            }
+        }
+
+        private void AlterarItem(int id)
+        {
+            MessageBox.Show($"Abrindo edição da credencial {id}");
+            // Lógica para abrir a tela de edição
+        }
+
         #endregion
     }
 }

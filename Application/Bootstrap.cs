@@ -73,7 +73,7 @@ namespace Application
 
             CriarTabelas(uow);
             InserirInformacoesIniciais(uow);
-            //InserirInformacoesTeste(uow);
+            InserirInformacoesTeste(uow);
         }
     
         private static void CriarTabelas(IUnitOfWork uow)
@@ -175,7 +175,7 @@ namespace Application
         #region Teste
         public static void InserirInformacoesTeste(IUnitOfWork uow)
         {
-            var gSCredencialRepository = Container.GetInstance<IGSCredencialRepository>();
+            var credencialAppService = Container.GetInstance<ICredencialAppService>();
             var random = new Random();
 
             try
@@ -184,15 +184,16 @@ namespace Application
 
                 for (int i = 0; i < 50; i++)
                 {
-                    gSCredencialRepository.Adicionar(new GSCredencial
+                    var gSCredencial = new GSCredencial
                     {
                         Credencial = GerarCredencial(random),
                         Senha = GerarSenha(random),
-                        IVSenha = "Teste123",
                         FK_GSCategoria = random.Next(1, 15),
                         DataCriacao = GerarDataCriacao(random),
-                        DataModificacao = random.NextDouble() > 0.5 ? (DateTime?)GerarDataCriacao(random) : null  // Se necessário, a DataModificacao pode ser nula
-                    });
+                        DataModificacao = random.NextDouble() > 0.5 ? (DateTime?)GerarDataCriacao(random) : null 
+                    };
+
+                    credencialAppService.SalvarCredencial(gSCredencial);
                 }
 
                 uow.Commit();

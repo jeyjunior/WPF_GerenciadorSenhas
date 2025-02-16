@@ -9,7 +9,6 @@
         <Setter Property="Foreground" Value="{StaticResource Branco}"/>
     </Style>
 
-
     <!-- TEXTBLOCK GLYPH 20 -->
     <Style x:Key="txbGlyphTemplate20" TargetType="TextBlock" BasedOn="{StaticResource txbGlyphTemplate}">
         <Setter Property="FontSize" Value="20"/>
