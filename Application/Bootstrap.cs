@@ -73,7 +73,7 @@ namespace Application
 
             CriarTabelas(uow);
             InserirInformacoesIniciais(uow);
-            // InserirInformacoesTeste(uow);
+            //InserirInformacoesTeste(uow);
         }
     
         private static void CriarTabelas(IUnitOfWork uow)
@@ -182,7 +182,7 @@ namespace Application
             {
                 uow.Begin();
 
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < 50; i++)
                 {
                     gSCredencialRepository.Adicionar(new GSCredencial
                     {

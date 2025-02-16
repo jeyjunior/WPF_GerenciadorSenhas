@@ -1,0 +1,71 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTemplate x:Key="btnCornerTemplate" TargetType="Button">
+        <Border x:Name="Border" 
+            Background="{TemplateBinding Background}" 
+            BorderBrush="{TemplateBinding BorderBrush}" 
+            BorderThickness="{TemplateBinding BorderThickness}" 
+            CornerRadius="5">
+            <Grid>
+                <!-- Conteúdo do botão -->
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <!-- Overlay para o efeito de hover branco -->
+                <Border x:Name="HoverOverlayBranco" 
+                    Background="{DynamicResource Branco}" 
+                    Opacity="0" 
+                    CornerRadius="5">
+                </Border>
+
+                <!-- Overlay para o efeito de hover preto -->
+                <Border x:Name="HoverOverlayPreto" 
+                    Background="{DynamicResource Preto}" 
+                    Opacity="0" 
+                    CornerRadius="5">
+                </Border>
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <!-- Efeito de hover branco -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="HoverOverlayBranco" Property="Opacity" Value="0.2"/>
+                <Setter TargetName="HoverOverlayPreto" Property="Opacity" Value="0"/>
+            </Trigger>
+
+            <!-- Efeito de clique -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="HoverOverlayBranco" Property="Opacity" Value="0.4"/>
+                <Setter TargetName="HoverOverlayPreto" Property="Opacity" Value="0"/>
+            </Trigger>
+
+            <!-- Efeito de desabilitado -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="HoverOverlayPreto" Property="Opacity" Value="0.5"/>
+                <Setter TargetName="HoverOverlayBranco" Property="Opacity" Value="0"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- BOTÃO BASE -->
+    <Style x:Key="btnBase" TargetType="Button">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Nenhuma}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template" Value="{StaticResource btnCornerTemplate}"/>
+    </Style>
+
+    <!-- BOTÃO PADRÃO 32 -->
+    <Style x:Key="btnPadrao32" TargetType="Button" BasedOn="{StaticResource btnBase}">
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="32"/>
+    </Style>
+
+    <!-- BOTÃO PADRÃO 28 -->
+    <Style x:Key="btnPadrao28" TargetType="Button" BasedOn="{StaticResource btnBase}">
+        <Setter Property="Width" Value="28"/>
+        <Setter Property="Height" Value="28"/>
+    </Style>
+    
+</ResourceDictionary>

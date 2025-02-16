@@ -9,6 +9,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/Cor/Cores.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/TextBlockStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ScrollBarStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/CredencialListBoxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
