@@ -27,19 +27,19 @@ namespace Presentation.Views
         private readonly IConfiguracaoAppService _configuracaoAppService;
         #endregion
 
-        #region Propriedades
-        private GSCredencial _gSCredencial;
+        #region Propriedades Publicas
+        public GSCredencial GSCredencialAtualizada { get; private set; }
         #endregion
 
         #region Construtor
-        public CadastroCredencial(GSCredencial gSCredencial = null)
+        public CadastroCredencial(GSCredencial gSCredencial)
         {
             InitializeComponent();
 
             _credencialAppService = Bootstrap.Container.GetInstance<ICredencialAppService>();
             _configuracaoAppService = Bootstrap.Container.GetInstance<IConfiguracaoAppService>();
 
-            _gSCredencial = (gSCredencial != null) ? gSCredencial : new GSCredencial();
+            GSCredencialAtualizada = gSCredencial;
         }
         #endregion
 
@@ -61,24 +61,27 @@ namespace Presentation.Views
             {
                 var gSCredencial = new GSCredencial
                 {
-                    PK_GSCredencial = _gSCredencial.PK_GSCredencial,
+                    PK_GSCredencial = GSCredencialAtualizada.PK_GSCredencial,
                     Credencial = txtCredencial.Text,
                     Senha = txtSenha.Password,
-                    IVSenha = _gSCredencial.IVSenha.ObterValorOuPadrao(""),
-                    DataCriacao = (_gSCredencial.PK_GSCredencial > 0) ? _gSCredencial.DataCriacao : DateTime.Now,
+                    IVSenha = GSCredencialAtualizada.IVSenha.ObterValorOuPadrao(""),
+                    DataCriacao = (GSCredencialAtualizada.PK_GSCredencial > 0) ? GSCredencialAtualizada.DataCriacao : DateTime.Now,
                     DataModificacao = null,
                     FK_GSCategoria = (int)cboCategoria.SelectedValue,
                 };
 
-                var result = _credencialAppService.SalvarCredencial(gSCredencial);
+                var PK_GSCredencial = _credencialAppService.SalvarCredencial(gSCredencial);
 
                 if (!gSCredencial.ValidarResultado.EhValido)
                     throw new Exception(gSCredencial.ValidarResultado.Erros.ToList()[0]);
 
-                if (!result)
+                if (PK_GSCredencial <= 0)
                     throw new Exception("Falha ao tentar salvar credencial, certifique-se que todas as informações estão corretas.");
 
                 MessageBox.Show("Credencial salva com sucesso.");
+
+                GSCredencialAtualizada = _credencialAppService.PesquisarPorID(PK_GSCredencial);
+
                 this.Close();
             }
             catch (Exception ex)
@@ -131,7 +134,7 @@ namespace Presentation.Views
         {
 
         }
-        
+
         private void txtSenha_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (txtSenha.IsVisible)
@@ -148,7 +151,7 @@ namespace Presentation.Views
         #region Metodos
         private void AtualizarComponentes()
         {
-            if (_gSCredencial.PK_GSCredencial == 0)
+            if (GSCredencialAtualizada.PK_GSCredencial == 0)
             {
                 lblTitulo.Content = "Cadastrar Credencial";
 
@@ -160,9 +163,9 @@ namespace Presentation.Views
             {
                 lblTitulo.Content = "Atualizar Credencial";
 
-                var criptografiaRequest = new CriptografiaRequest { Valor = _gSCredencial.Senha, IV = _gSCredencial.IVSenha };
+                var criptografiaRequest = new CriptografiaRequest { Valor = GSCredencialAtualizada.Senha, IV = GSCredencialAtualizada.IVSenha };
                 string senha = _configuracaoAppService.Descriptografar(criptografiaRequest);
-                
+
                 if (!criptografiaRequest.ValidarResultado.EhValido)
                 {
                     // AVISAR ERRO COM MENSAGEM PERSONALIZADA
@@ -171,10 +174,10 @@ namespace Presentation.Views
                 }
 
                 txtSenha.Password = senha;
-                txtCredencial.Text = _gSCredencial.Credencial;
+                txtCredencial.Text = GSCredencialAtualizada.Credencial;
 
-                if (_gSCredencial.FK_GSCategoria != null)
-                    cboCategoria.SelectedValue = _gSCredencial.FK_GSCategoria.ObterValorOuPadrao(0);
+                if (GSCredencialAtualizada.FK_GSCategoria != null)
+                    cboCategoria.SelectedValue = GSCredencialAtualizada.FK_GSCategoria.ObterValorOuPadrao(0);
             }
 
             txtCredencial.Focus();

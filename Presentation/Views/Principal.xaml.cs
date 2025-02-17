@@ -18,6 +18,8 @@ using Domain.Enumeradores;
 using Domain.Entidades;
 using Application.Interfaces;
 using Application;
+using System.Collections.ObjectModel;
+using System.Collections.Immutable;
 
 namespace Presentation.Views
 {
@@ -30,6 +32,7 @@ namespace Presentation.Views
 
         #region Propriedades
         int indiceSelecionado = 0;
+        private ObservableCollection<CredencialView> _credenciais;
         #endregion
 
         #region Construtor
@@ -58,8 +61,10 @@ namespace Presentation.Views
         {
             try
             {
-                CadastroCredencial cadastroCredencial = new CadastroCredencial();
+                CadastroCredencial cadastroCredencial = new CadastroCredencial(new GSCredencial());
                 cadastroCredencial.ShowDialog();
+
+                AtualizarCredencialView(cadastroCredencial.GSCredencialAtualizada);
             }
             catch (Exception ex)
             {
@@ -67,100 +72,12 @@ namespace Presentation.Views
             }
             finally
             {
-                Pesquisar();
             }
         }
 
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void btnExcluir_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnAlterar_Click(object sender, RoutedEventArgs e)
-        {
-
-            //try
-            //{
-            //    if (dtgCredencial.Items.Count <= 0)
-            //        throw new Exception("Pesquise ou cadastre alguma credencial antes de realizar essa operação.");
-
-            //    if (dtgCredencial.SelectedItems.Count <= 0) 
-            //        throw new Exception("Nenhuma credencial selecionada.");
-
-            //    indiceSelecionado = dtgCredencial.SelectedIndex;
-
-            //    if (!PodeAlterarCredencial(out int PK_GSCredencial))
-            //        throw new Exception("Não foi possível obter as informações da credencial selecionada.");
-
-            //    var gSCredencial = _credencialAppService.PesquisarPorID(PK_GSCredencial);
-
-            //    if (gSCredencial == null)
-            //        throw new Exception("Não foi possível obter as informações da credencial selecionada.");
-
-            //    CadastroCredencial cadastroCredencial = new CadastroCredencial(gSCredencial);
-            //    cadastroCredencial.ShowDialog();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //finally
-            //{
-            //    Pesquisar();
-            //}
-        }
-
-        private void btnExibirSenha_Click(object sender, RoutedEventArgs e)
-        {
-            //try
-            //{
-            //    var linha = dtgCredencial.SelectedItem as CredencialView;
-
-            //    if (linha == null)
-            //        return;
-
-            //    linha.ExibirSenha = !linha.ExibirSenha;
-
-            //    int PK_GESCredencial = linha.PK_GSCredencial;
-
-            //    var gSCredencial = _credencialAppService.PesquisarPorID(PK_GESCredencial);
-
-            //    if (gSCredencial == null)
-            //        throw new Exception("Não foi possível obter as informações de senha da credencial.");
-
-            //    if (linha.ExibirSenha)
-            //    {
-            //        var criptografiaRequest = new CriptografiaRequest
-            //        {
-            //            Valor = gSCredencial.Senha,
-            //            IV = gSCredencial.IVSenha,
-            //        };
-
-            //        string senhaDescriptografada = _configuracaoAppService.Descriptografar(criptografiaRequest);
-
-            //        if (!criptografiaRequest.ValidarResultado.EhValido)
-            //            throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
-
-            //        linha.SenhaVisivel = senhaDescriptografada;
-            //    }
-            //    else
-            //    {
-            //        linha.SenhaVisivel = gSCredencial.Senha.Ocultar();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            //finally
-            //{
-            //    dtgCredencial.Items.Refresh();
-            //}
         }
         #endregion
 
@@ -193,26 +110,28 @@ namespace Presentation.Views
         {
             if (gSCredencials != null)
             {
-                var resultado = gSCredencials.Select(i => new CredencialView(_configuracaoAppService)
-                {
-                    PK_GSCredencial = i.PK_GSCredencial,
-                    DataModificacao = i.DataModificacao?.ToShortDateString() ?? "",
-                    Categoria = i.GSCategoria?.Categoria ?? "",
-                    Credencial = i.Credencial,
-                    SenhaVisivel = OcultarSenha(i.Senha, i.IVSenha),
-                    SenhaCriptografada = i.Senha,
-                    SenhaIV = i.IVSenha,
-                    
-                    // Define ações para os botões
-                    OnExcluir = ExcluirItem,
-                    OnAlterar = AlterarItem
-                }).ToList();
+                _credenciais = new ObservableCollection<CredencialView>(
+                    gSCredencials.Select(i => new CredencialView(_configuracaoAppService)
+                    {
+                        PK_GSCredencial = i.PK_GSCredencial,
+                        DataModificacao = i.DataModificacao?.ToShortDateString() ?? "",
+                        Categoria = i.GSCategoria?.Categoria ?? "",
+                        Credencial = i.Credencial,
+                        SenhaVisivel = OcultarSenha(i.Senha, i.IVSenha),
+                        SenhaCriptografada = i.Senha,
+                        SenhaIV = i.IVSenha,
 
-                listaCredenciais.ItemsSource = resultado;
+                        OnExcluir = ExcluirItem,
+                        OnAlterar = AlterarItem
+                    })
+                );
+
+                listaCredenciais.ItemsSource = _credenciais;
             }
             else
             {
-                listaCredenciais.ItemsSource = new List<CredencialView>();
+                _credenciais = new ObservableCollection<CredencialView>();
+                listaCredenciais.ItemsSource = _credenciais;
             }
         }
 
@@ -228,23 +147,66 @@ namespace Presentation.Views
             return senhaDescriptografada.Ocultar();
         }
 
-        private void ExcluirItem(int id)
+        private void ExcluirItem(CredencialView credencialView)
         {
-            var confirmacao = MessageBox.Show("Deseja excluir esta credencial?", "Confirmação", MessageBoxButton.YesNo);
-            if (confirmacao == MessageBoxResult.Yes)
+            if (_credenciais != null && _credenciais.Contains(credencialView))
             {
-                // Lógica para excluir
-                MessageBox.Show($"Credencial {id} excluída.");
-                //AtualizarLista();
+                var ret = _credencialAppService.DeletarCredencial(credencialView.PK_GSCredencial);
+
+                if (!ret)
+                    throw new Exception("Falha inesperada ao tentar deletar item.");
+
+                _credenciais.Remove(credencialView);
             }
         }
 
-        private void AlterarItem(int id)
+        private void AlterarItem(CredencialView credencialView)
         {
-            MessageBox.Show($"Abrindo edição da credencial {id}");
-            // Lógica para abrir a tela de edição
+            if (credencialView == null)
+                throw new Exception("Não foi possível encontrar o item para alterar.");
+
+            if (!_credenciais.Contains(credencialView))
+                throw new Exception("Não foi possível encontrar o item para alterar.");
+
+            var gSCredencial = _credencialAppService.PesquisarPorID(credencialView.PK_GSCredencial);
+
+            CadastroCredencial cadastroCredencial = new CadastroCredencial(gSCredencial);
+            cadastroCredencial.ShowDialog();
+
+            AtualizarCredencialView(cadastroCredencial.GSCredencialAtualizada);
         }
 
+        private void AtualizarCredencialView(GSCredencial gSCredencial)
+        {
+            var item = _credenciais.FirstOrDefault(i => i.PK_GSCredencial == gSCredencial.PK_GSCredencial);
+
+            if (item == null)
+            {
+                _credenciais.Add(new CredencialView(_configuracaoAppService)
+                {
+                    PK_GSCredencial = gSCredencial.PK_GSCredencial,
+                    DataModificacao = gSCredencial.DataModificacao?.ToShortDateString() ?? "",
+                    Categoria = gSCredencial.GSCategoria?.Categoria ?? "",
+                    Credencial = gSCredencial.Credencial,
+                    SenhaVisivel = OcultarSenha(gSCredencial.Senha, gSCredencial.IVSenha),
+                    SenhaCriptografada = gSCredencial.Senha,
+                    SenhaIV = gSCredencial.IVSenha,
+
+                    OnExcluir = ExcluirItem,
+                    OnAlterar = AlterarItem
+                });
+            }
+            else
+            {
+                item.PK_GSCredencial = gSCredencial.PK_GSCredencial;
+                item.DataModificacao = gSCredencial.DataModificacao?.ToShortDateString() ?? "";
+                item.Categoria = gSCredencial.GSCategoria?.Categoria ?? "";
+                item.Credencial = gSCredencial.Credencial;
+                item.SenhaVisivel = OcultarSenha(gSCredencial.Senha, gSCredencial.IVSenha);
+                item.SenhaCriptografada = gSCredencial.Senha;
+                item.SenhaIV = gSCredencial.IVSenha;
+            }
+        }
         #endregion
     }
 }

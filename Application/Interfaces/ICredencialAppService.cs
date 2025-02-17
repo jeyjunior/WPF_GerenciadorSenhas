@@ -14,6 +14,7 @@ namespace Application.Interfaces
         GSCredencial PesquisarPorID(int PK_GSCredencial);
         IEnumerable<Item> ObterTipoDePesquisa();
         IEnumerable<GSCategoria> ObterCategorias();
-        bool SalvarCredencial(GSCredencial gSCredencial);
+        int SalvarCredencial(GSCredencial gSCredencial);
+        bool DeletarCredencial(int PK_GSCredencial);
     }
 }

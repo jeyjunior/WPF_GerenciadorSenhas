@@ -7,9 +7,6 @@ using JJ.NET.Core.Extensoes;
 using Application.Services;
 using Application.Interfaces;
 
-using Microsoft.Toolkit.Uwp.Notifications;
-
-
 public class CredencialView : INotifyPropertyChanged
 {
     private IConfiguracaoAppService _configuracaoAppService;
@@ -18,65 +15,92 @@ public class CredencialView : INotifyPropertyChanged
     private void OnPropertyChanged(string propertyName) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-    public int PK_GSCredencial { get; set; }
-    public string DataModificacao { get; set; }
-    public string Categoria { get; set; }
-    public string Credencial { get; set; }
+    private void SetProperty<T>(ref T field, T value, string propertyName)
+    {
+        if (!Equals(field, value))
+        {
+            field = value;
+            OnPropertyChanged(propertyName);
+        }
+    }
+
+    public GSCredencial GSCredencial { get; set; }
+
+    private int _pkGSCredencial;
+    public int PK_GSCredencial
+    {
+        get => _pkGSCredencial;
+        set => SetProperty(ref _pkGSCredencial, value, nameof(PK_GSCredencial));
+    }
+
+    private string _dataModificacao;
+    public string DataModificacao
+    {
+        get => _dataModificacao;
+        set => SetProperty(ref _dataModificacao, value, nameof(DataModificacao));
+    }
+
+    private string _categoria;
+    public string Categoria
+    {
+        get => _categoria;
+        set => SetProperty(ref _categoria, value, nameof(Categoria));
+    }
+
+    private string _credencial;
+    public string Credencial
+    {
+        get => _credencial;
+        set => SetProperty(ref _credencial, value, nameof(Credencial));
+    }
 
     private string _senhaVisivel;
     public string SenhaVisivel
     {
         get => _senhaVisivel;
-        set
-        {
-            if (_senhaVisivel != value)
-            {
-                _senhaVisivel = value;
-                OnPropertyChanged(nameof(SenhaVisivel)); 
-            }
-        }
+        set => SetProperty(ref _senhaVisivel, value, nameof(SenhaVisivel));
     }
 
     public string SenhaCriptografada { get; set; }
     public string SenhaIV { get; set; }
-    private bool exibirSenha { get; set; }
+
+    private bool _exibirSenha;
+    public bool ExibirSenha
+    {
+        get => _exibirSenha;
+        set => SetProperty(ref _exibirSenha, value, nameof(ExibirSenha));
+    }
+
     public ICommand ExcluirCommand { get; }
     public ICommand AlterarCommand { get; }
     public ICommand ExibirSenhaCommand { get; }
     public ICommand CopiarCredencialCommand { get; }
     public ICommand CopiarSenhaCommand { get; }
 
-    public Action<int> OnExcluir { get; set; }
-    public Action<int> OnAlterar { get; set; }
+    public Action<CredencialView> OnExcluir { get; set; }
+    public Action<CredencialView> OnAlterar { get; set; }
 
-    public CredencialView(IConfiguracaoAppService _configuracaoAppService)
+    public CredencialView(IConfiguracaoAppService configuracaoAppService)
     {
         ExcluirCommand = new CommandHandler(() => Excluir(), true);
         AlterarCommand = new CommandHandler(() => Alterar(), true);
-        ExibirSenhaCommand = new CommandHandler(() => ExibirSenha(), true);
+        ExibirSenhaCommand = new CommandHandler(() => AlternarExibicaoSenha(), true);
         CopiarCredencialCommand = new CommandHandler(() => CopiarCredencial(), true);
         CopiarSenhaCommand = new CommandHandler(() => CopiarSenha(), true);
 
-        this._configuracaoAppService = _configuracaoAppService;
+        _configuracaoAppService = configuracaoAppService;
     }
 
-    private void Excluir()
-    {
-        OnExcluir?.Invoke(PK_GSCredencial);
-    }
+    private void Excluir() => OnExcluir?.Invoke(this);
+    private void Alterar() => OnAlterar?.Invoke(this);
 
-    private void Alterar()
-    {
-        OnAlterar?.Invoke(PK_GSCredencial);
-    }
-
-    private void ExibirSenha()
+    private void AlternarExibicaoSenha()
     {
         try
         {
-            exibirSenha = !exibirSenha;
+            ExibirSenha = !ExibirSenha;
 
-            if (exibirSenha)
+            if (ExibirSenha)
             {
                 var criptografiaRequest = new CriptografiaRequest
                 {
@@ -121,7 +145,5 @@ public class CredencialView : INotifyPropertyChanged
             throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
 
         Clipboard.SetText(senhaDescriptografada);
-
-        // INVOCAR MENSAGEM
     }
 }

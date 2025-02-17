@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -8,11 +9,15 @@ using Application.Interfaces;
 using Domain.Entidades;
 using Domain.Enumeradores;
 using Domain.Interfaces;
+using InfraData.Repository;
 using JJ.NET.Core.DTO;
 using JJ.NET.Core.Extensoes;
 using JJ.NET.Core.Validador;
+using JJ.NET.CrossData;
 using JJ.NET.CrossData.DTO;
 using JJ.NET.Cryptography;
+using JJ.NET.Data;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 
 namespace Application.Services
 {
@@ -77,11 +82,11 @@ namespace Application.Services
         {
             return gSCategoriaRepository.ObterLista();
         }
-        
-        public bool SalvarCredencial(GSCredencial gSCredencial)
+
+        public int SalvarCredencial(GSCredencial gSCredencial)
         {
             if (gSCredencial == null)
-                return false;
+                return -1;
 
             bool atualizarRegistro = (gSCredencial.PK_GSCredencial > 0);
 
@@ -90,13 +95,13 @@ namespace Application.Services
             if (gSCredencial.Credencial.ObterValorOuPadrao("").Trim() == "")
             {
                 gSCredencial.ValidarResultado.Adicionar("Credencial é um campo obrigatório.");
-                return false;
+                return -1;
             }
 
             if (gSCredencial.Senha.ObterValorOuPadrao("").Trim() == "")
             {
                 gSCredencial.ValidarResultado.Adicionar("Senha é um campo obrigatório.");
-                return false;
+                return -1;
             }
 
             var credencial = new GSCredencial
@@ -110,8 +115,8 @@ namespace Application.Services
             if (gSCredencial.FK_GSCategoria != null)
                 credencial.FK_GSCategoria = gSCredencial.FK_GSCategoria;
 
-            var criptografarRequest = new CriptografarRequest 
-            { 
+            var criptografarRequest = new CriptografarRequest
+            {
                 TipoCriptografia = JJ.NET.Cryptography.Enumerador.TipoCriptografia.AES,
                 Valor = gSCredencial.Senha,
                 IV = gSCredencial.IVSenha.ObterValorOuPadrao(""),
@@ -122,28 +127,72 @@ namespace Application.Services
             if (criptografarResult.Erro.ObterValorOuPadrao("").Trim() != "")
             {
                 gSCredencial.ValidarResultado.Adicionar(criptografarResult.Erro);
-                return false;
+                return -1;
             }
 
             credencial.Senha = criptografarResult.Valor;
             credencial.IVSenha = criptografarResult.IV;
 
+            int PK_GESCredencial = -1;
+
+
+            using (var uow = new UnitOfWork(ConfiguracaoBancoDados.ObterConexao()))
+            {
+                var _gSCredencialRepository = new GSCredencialRepository(uow);
+                try
+                {
+                    uow.Begin();
+
+                    if (atualizarRegistro)
+                    {
+                        PK_GESCredencial = _gSCredencialRepository.Atualizar(credencial);
+                    }
+                    else
+                    {
+                        PK_GESCredencial = _gSCredencialRepository.Adicionar(credencial);
+                    }
+
+                    uow.Commit();
+                }
+                catch (Exception ex)
+                {
+                    uow.Rollback();
+                    throw new Exception(ex.Message);
+                }
+            }
+
             if (atualizarRegistro)
+                return PK_GESCredencial > 0 ? gSCredencial.PK_GSCredencial : -1;
+
+            return PK_GESCredencial;
+        }
+
+        public bool DeletarCredencial(int PK_GSCredencial)
+        {
+            bool ret = false;
+
+            using (var uow = new UnitOfWork(ConfiguracaoBancoDados.ObterConexao()))
             {
-                var ret = gSCredencialRepository.Atualizar(credencial);
+                var _gSCredencialRepository = new GSCredencialRepository(uow);
+                try
+                {
+                    uow.Begin();
 
-                if (ret > 0)
-                    return true;
+                    var result = _gSCredencialRepository.Deletar(PK_GSCredencial);
+
+                    uow.Commit();
+
+                    if (result > 0)
+                        ret = true;
+                }
+                catch (Exception ex)
+                {
+                    uow.Rollback();
+                    throw new Exception(ex.Message);
+                }
             }
-            else
-            {
-                var ret = gSCredencialRepository.Adicionar(credencial);
 
-                if (ret > 0)
-                    return true;
-            }
-
-            return false;
+            return ret;
         }
         #endregion
     }

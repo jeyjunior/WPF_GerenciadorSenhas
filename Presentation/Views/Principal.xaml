@@ -30,10 +30,6 @@
                 <ColumnDefinition Width="42"/>
                 <ColumnDefinition Width="8"/>
                 <ColumnDefinition Width="42"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="42"/>
-                <ColumnDefinition Width="8"/>
-                <ColumnDefinition Width="42"/>
             </Grid.ColumnDefinitions>
 
             <ComboBox Grid.Column="0"
@@ -54,18 +50,6 @@
                     Click="btnConfig_Click"/>
 
             <Button Grid.Column="6"
-                    Background="{StaticResource Vermelho2}"
-                    Content=""
-                    x:Name="btnExcluir"
-                    Click="btnExcluir_Click"/>
-
-            <Button Grid.Column="8"
-                    Background="{StaticResource Laranja}"
-                    Content=""
-                    x:Name="btnAlterar"
-                    Click="btnAlterar_Click"/>
-
-            <Button Grid.Column="10"
                     Background="{StaticResource Verde1}"
                     Content=""
                     x:Name="btnAdicionar"
