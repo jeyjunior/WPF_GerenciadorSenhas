@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.ComponentModel;
 using Domain.Entidades;
 using JJ.NET.Core.Extensoes;
 using Application.Services;
 using Application.Interfaces;
+
+using Microsoft.Toolkit.Uwp.Notifications;
+
 
 public class CredencialView : INotifyPropertyChanged
 {
@@ -39,6 +43,9 @@ public class CredencialView : INotifyPropertyChanged
     public ICommand ExcluirCommand { get; }
     public ICommand AlterarCommand { get; }
     public ICommand ExibirSenhaCommand { get; }
+    public ICommand CopiarCredencialCommand { get; }
+    public ICommand CopiarSenhaCommand { get; }
+
     public Action<int> OnExcluir { get; set; }
     public Action<int> OnAlterar { get; set; }
 
@@ -47,6 +54,8 @@ public class CredencialView : INotifyPropertyChanged
         ExcluirCommand = new CommandHandler(() => Excluir(), true);
         AlterarCommand = new CommandHandler(() => Alterar(), true);
         ExibirSenhaCommand = new CommandHandler(() => ExibirSenha(), true);
+        CopiarCredencialCommand = new CommandHandler(() => CopiarCredencial(), true);
+        CopiarSenhaCommand = new CommandHandler(() => CopiarSenha(), true);
 
         this._configuracaoAppService = _configuracaoAppService;
     }
@@ -91,5 +100,28 @@ public class CredencialView : INotifyPropertyChanged
         {
             throw new Exception(ex.Message);
         }
+    }
+
+    private void CopiarCredencial()
+    {
+        Clipboard.SetText(Credencial);
+    }
+
+    private void CopiarSenha()
+    {
+        var criptografiaRequest = new CriptografiaRequest
+        {
+            Valor = SenhaCriptografada,
+            IV = SenhaIV,
+        };
+
+        string senhaDescriptografada = _configuracaoAppService.Descriptografar(criptografiaRequest);
+
+        if (!criptografiaRequest.ValidarResultado.EhValido)
+            throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
+
+        Clipboard.SetText(senhaDescriptografada);
+
+        // INVOCAR MENSAGEM
     }
 }

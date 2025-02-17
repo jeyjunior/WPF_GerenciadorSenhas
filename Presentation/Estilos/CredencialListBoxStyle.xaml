@@ -42,7 +42,7 @@
                                     <TextBlock Text="{Binding Credencial}" FontSize="11" Foreground="{StaticResource Branco}" FontWeight="Bold"/>
                                 </StackPanel>
 
-                                <Button Grid.Column="1" Style="{StaticResource btnPadrao28}" Background="{StaticResource Nenhuma}">
+                                <Button x:Name="btnCopiarCredencial" Grid.Column="1" Style="{StaticResource btnPadrao28}" Command="{Binding CopiarCredencialCommand}" Background="{StaticResource Nenhuma}">
                                     <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE8C8;"/>
                                 </Button>
                             </Grid>
@@ -67,7 +67,7 @@
                                     <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE890;"/>
                                 </Button>
 
-                                <Button x:Name="btnCopiarSenha" Grid.Column="2" Style="{StaticResource btnPadrao28}" Background="{StaticResource Nenhuma}">
+                                <Button x:Name="btnCopiarSenha" Grid.Column="2" Style="{StaticResource btnPadrao28}" Command="{Binding CopiarSenhaCommand}" Background="{StaticResource Nenhuma}">
                                     <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE8C8;"/>
                                 </Button>
                             </Grid>
