@@ -1,9 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-
     <Style x:Key="ListBoxCredenciaisStyle" TargetType="ListBoxItem">
-        <!-- Cor de fundo padrão -->
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
 
         <Setter Property="Template">
@@ -42,9 +40,10 @@
                                     <TextBlock Text="{Binding Credencial}" FontSize="11" Foreground="{StaticResource Branco}" FontWeight="Bold"/>
                                 </StackPanel>
 
-                                <Button x:Name="btnCopiarCredencial" Grid.Column="1" Style="{StaticResource btnPadrao28}" Command="{Binding CopiarCredencialCommand}" Background="{StaticResource Nenhuma}">
-                                    <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE8C8;"/>
+                                <Button x:Name="btnCopiarCredencial" Grid.Column="1" Style="{StaticResource btnPadrao28}" Command="{Binding CopiarCredencialCommand}" Background="{StaticResource Nenhuma}" IsEnabled="{Binding PodeCopiarCredencial}">
+                                    <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="{Binding IconeCopiarCredencial}"/>
                                 </Button>
+
                             </Grid>
 
                             <!-- Separador 2 -->
@@ -63,13 +62,14 @@
                                     <TextBlock Text="{Binding SenhaVisivel, UpdateSourceTrigger=PropertyChanged}" FontSize="11" Foreground="{StaticResource Branco}" FontWeight="Bold"/>
                                 </StackPanel>
 
-                                <Button x:Name="btnExibirSenha" Grid.Column="1" Style="{StaticResource btnPadrao28}" Command="{Binding ExibirSenhaCommand}" Background="{StaticResource Nenhuma}">
-                                    <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE890;"/>
+                                <Button x:Name="btnExibirSenha" Grid.Column="1" Style="{StaticResource btnPadrao28}" Command="{Binding ExibirSenhaCommand}" Background="{Binding CorBotaoExibirSenha}">
+                                    <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE890;"/> 
                                 </Button>
 
-                                <Button x:Name="btnCopiarSenha" Grid.Column="2" Style="{StaticResource btnPadrao28}" Command="{Binding CopiarSenhaCommand}" Background="{StaticResource Nenhuma}">
-                                    <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="&#xE8C8;"/>
+                                <Button x:Name="btnCopiarSenha" Grid.Column="2" Style="{StaticResource btnPadrao28}" Command="{Binding CopiarSenhaCommand}" Background="{StaticResource Nenhuma}" IsEnabled="{Binding PodeCopiarSenha}">
+                                    <TextBlock Style="{StaticResource txbGlyphTemplate16}" Text="{Binding IconeCopiarSenha}"/>
                                 </Button>
+
                             </Grid>
 
                             <!-- Btns Excluir e Editar -->

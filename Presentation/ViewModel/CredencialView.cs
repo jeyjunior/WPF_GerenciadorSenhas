@@ -2,10 +2,12 @@
 using System.Windows;
 using System.Windows.Input;
 using System.ComponentModel;
+using System.Windows.Media;
 using Domain.Entidades;
 using JJ.NET.Core.Extensoes;
 using Application.Services;
 using Application.Interfaces;
+using Presentation;
 
 public class CredencialView : INotifyPropertyChanged
 {
@@ -23,8 +25,6 @@ public class CredencialView : INotifyPropertyChanged
             OnPropertyChanged(propertyName);
         }
     }
-
-    public GSCredencial GSCredencial { get; set; }
 
     private int _pkGSCredencial;
     public int PK_GSCredencial
@@ -46,7 +46,6 @@ public class CredencialView : INotifyPropertyChanged
         get => _categoria;
         set => SetProperty(ref _categoria, value, nameof(Categoria));
     }
-
     private string _credencial;
     public string Credencial
     {
@@ -60,15 +59,48 @@ public class CredencialView : INotifyPropertyChanged
         get => _senhaVisivel;
         set => SetProperty(ref _senhaVisivel, value, nameof(SenhaVisivel));
     }
-
     public string SenhaCriptografada { get; set; }
     public string SenhaIV { get; set; }
+
+    private string _iconeCopiarCredencial = "\uE8C8"; 
+    public string IconeCopiarCredencial
+    {
+        get => _iconeCopiarCredencial;
+        set => SetProperty(ref _iconeCopiarCredencial, value, nameof(IconeCopiarCredencial));
+    }
+
+    private bool _podeCopiarCredencial = true;
+    public bool PodeCopiarCredencial
+    {
+        get => _podeCopiarCredencial;
+        set => SetProperty(ref _podeCopiarCredencial, value, nameof(PodeCopiarCredencial));
+    }
+    private bool _podeCopiarSenha = true;
+    public bool PodeCopiarSenha
+    {
+        get => _podeCopiarSenha;
+        set => SetProperty(ref _podeCopiarSenha, value, nameof(PodeCopiarSenha));
+    }
+
+    private string _iconeCopiarSenha = "\uE8C8"; 
+    public string IconeCopiarSenha
+    {
+        get => _iconeCopiarSenha;
+        set => SetProperty(ref _iconeCopiarSenha, value, nameof(IconeCopiarSenha));
+    }
 
     private bool _exibirSenha;
     public bool ExibirSenha
     {
         get => _exibirSenha;
         set => SetProperty(ref _exibirSenha, value, nameof(ExibirSenha));
+    }
+
+    private Brush _corBotaoExibirSenha;
+    public Brush CorBotaoExibirSenha
+    {
+        get => _corBotaoExibirSenha;
+        set => SetProperty(ref _corBotaoExibirSenha, value, nameof(CorBotaoExibirSenha));
     }
 
     public ICommand ExcluirCommand { get; }
@@ -79,7 +111,7 @@ public class CredencialView : INotifyPropertyChanged
 
     public Action<CredencialView> OnExcluir { get; set; }
     public Action<CredencialView> OnAlterar { get; set; }
-
+    
     public CredencialView(IConfiguracaoAppService configuracaoAppService)
     {
         ExcluirCommand = new CommandHandler(() => Excluir(), true);
@@ -89,6 +121,8 @@ public class CredencialView : INotifyPropertyChanged
         CopiarSenhaCommand = new CommandHandler(() => CopiarSenha(), true);
 
         _configuracaoAppService = configuracaoAppService;
+
+        CorBotaoExibirSenha = ObterCorDoEstilo("Nenhuma");
     }
 
     private void Excluir() => OnExcluir?.Invoke(this);
@@ -111,13 +145,17 @@ public class CredencialView : INotifyPropertyChanged
                 string senhaDescriptografada = _configuracaoAppService.Descriptografar(criptografiaRequest);
 
                 if (!criptografiaRequest.ValidarResultado.EhValido)
-                    throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
+                    throw new Exception(criptografiaRequest.ValidarResultado.Erros.First());
 
                 SenhaVisivel = senhaDescriptografada;
+
+                CorBotaoExibirSenha = ObterCorDoEstilo("Cinza11");
             }
             else
             {
                 SenhaVisivel = SenhaVisivel.Ocultar();
+
+                CorBotaoExibirSenha = ObterCorDoEstilo("Nenhuma");
             }
         }
         catch (Exception ex)
@@ -125,25 +163,52 @@ public class CredencialView : INotifyPropertyChanged
             throw new Exception(ex.Message);
         }
     }
-
-    private void CopiarCredencial()
+    private async void CopiarCredencial()
     {
         Clipboard.SetText(Credencial);
+        IconeCopiarCredencial = "\uE001"; // Ícone de check
+        PodeCopiarCredencial = false;   
+
+        await Task.Delay(2000); 
+
+        IconeCopiarCredencial = "\uE8C8"; // Volta ao ícone original
+        PodeCopiarCredencial = true; 
     }
-
-    private void CopiarSenha()
+    private async void CopiarSenha()
     {
-        var criptografiaRequest = new CriptografiaRequest
+        try
         {
-            Valor = SenhaCriptografada,
-            IV = SenhaIV,
-        };
+            var criptografiaRequest = new CriptografiaRequest
+            {
+                Valor = SenhaCriptografada,
+                IV = SenhaIV,
+            };
 
-        string senhaDescriptografada = _configuracaoAppService.Descriptografar(criptografiaRequest);
+            string senhaDescriptografada = _configuracaoAppService.Descriptografar(criptografiaRequest);
 
-        if (!criptografiaRequest.ValidarResultado.EhValido)
-            throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
+            if (!criptografiaRequest.ValidarResultado.EhValido)
+                throw new Exception(criptografiaRequest.ValidarResultado.Erros.First());
 
-        Clipboard.SetText(senhaDescriptografada);
+            Clipboard.SetText(senhaDescriptografada);
+
+            IconeCopiarSenha = "\uE001";
+            PodeCopiarSenha = false;
+
+            await Task.Delay(2000);
+
+            IconeCopiarSenha = "\uE8C8";
+            PodeCopiarSenha = true;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+    private Brush ObterCorDoEstilo(string chave)
+    {
+        if (App.Current.Resources.Contains(chave))
+            return (Brush)App.Current.Resources[chave];
+
+        return Brushes.Transparent; 
     }
 }

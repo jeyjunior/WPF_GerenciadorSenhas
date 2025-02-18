@@ -8,6 +8,7 @@
         Background="{StaticResource Cinza13}"
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
+        
         Title="CadastroCredencial" Height="600" Width="540" MinHeight="600" MinWidth="540" MaxHeight="600" MaxWidth="540">
     
     <Grid Margin="32,0">

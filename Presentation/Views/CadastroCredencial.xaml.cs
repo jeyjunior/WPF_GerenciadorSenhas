@@ -29,6 +29,7 @@ namespace Presentation.Views
 
         #region Propriedades Publicas
         public GSCredencial GSCredencialAtualizada { get; private set; }
+        public bool CredencialSalva { get; private set; } = false;
         #endregion
 
         #region Construtor
@@ -49,12 +50,10 @@ namespace Presentation.Views
             BindComboBoxCategoria();
             AtualizarComponentes();
         }
-
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
         private void btnSalvar_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -81,7 +80,7 @@ namespace Presentation.Views
                 MessageBox.Show("Credencial salva com sucesso.");
 
                 GSCredencialAtualizada = _credencialAppService.PesquisarPorID(PK_GSCredencial);
-
+                CredencialSalva = true;
                 this.Close();
             }
             catch (Exception ex)
@@ -93,7 +92,6 @@ namespace Presentation.Views
                 txtCredencial.Focus();
             }
         }
-
         private void btnConfigurarCredencial_Click(object sender, RoutedEventArgs e)
         {
 
@@ -140,7 +138,6 @@ namespace Presentation.Views
             if (txtSenha.IsVisible)
                 txtSenhaVisivel.Text = txtSenha.Password;
         }
-
         private void txtSenhaVisivel_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (txtSenhaVisivel.IsVisible)
@@ -169,8 +166,8 @@ namespace Presentation.Views
                 if (!criptografiaRequest.ValidarResultado.EhValido)
                 {
                     // AVISAR ERRO COM MENSAGEM PERSONALIZADA
-                    throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
                     this.Close();
+                    throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
                 }
 
                 txtSenha.Password = senha;
@@ -182,7 +179,6 @@ namespace Presentation.Views
 
             txtCredencial.Focus();
         }
-
         private void BindComboBoxCategoria()
         {
             cboCategoria.ItemsSource = _credencialAppService.ObterCategorias().ToList();
@@ -190,7 +186,6 @@ namespace Presentation.Views
             cboCategoria.SelectedValuePath = "PK_GSCategoria";
             cboCategoria.SelectedValue = "0";
         }
-
         public void Dispose()
         {
             GC.Collect();

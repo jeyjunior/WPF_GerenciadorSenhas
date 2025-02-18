@@ -51,12 +51,10 @@ namespace Presentation.Views
             CarregarComboBoxTipoPesquisa();
             Pesquisar();
         }
-
         private void btnPesquisar_Click(object sender, RoutedEventArgs e)
         {
             Pesquisar();
         }
-
         private void btnAdicionar_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -64,7 +62,10 @@ namespace Presentation.Views
                 CadastroCredencial cadastroCredencial = new CadastroCredencial(new GSCredencial());
                 cadastroCredencial.ShowDialog();
 
-                AtualizarCredencialView(cadastroCredencial.GSCredencialAtualizada);
+                if (cadastroCredencial.CredencialSalva)
+                    AtualizarCredencialView(cadastroCredencial.GSCredencialAtualizada);
+                
+                AtualizarStatus();
             }
             catch (Exception ex)
             {
@@ -74,8 +75,12 @@ namespace Presentation.Views
             {
             }
         }
-
         private void btnConfig_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnOrdenacao_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -89,7 +94,6 @@ namespace Presentation.Views
             cboTipoDePesquisa.SelectedValuePath = "ID";
             cboTipoDePesquisa.SelectedValue = "0";
         }
-
         private void Pesquisar()
         {
             var tipoDePesquisa = cboTipoDePesquisa.SelectedValue.ToString();
@@ -103,9 +107,8 @@ namespace Presentation.Views
             var ret = _credencialAppService.Pesquisar(requisicao);
             BindPrincipal(ret);
 
-            lblTotal.Content = "Total: " + ret.Count();
+            AtualizarStatus();
         }
-
         private void BindPrincipal(IEnumerable<GSCredencial> gSCredencials)
         {
             if (gSCredencials != null)
@@ -134,7 +137,6 @@ namespace Presentation.Views
                 listaCredenciais.ItemsSource = _credenciais;
             }
         }
-
         private string OcultarSenha(string senhaCriptografada, string senhaIV)
         {
             var criptografiaRequest = new CriptografiaRequest { Valor = senhaCriptografada, IV = senhaIV };
@@ -146,7 +148,6 @@ namespace Presentation.Views
 
             return senhaDescriptografada.Ocultar();
         }
-
         private void ExcluirItem(CredencialView credencialView)
         {
             if (_credenciais != null && _credenciais.Contains(credencialView))
@@ -157,9 +158,10 @@ namespace Presentation.Views
                     throw new Exception("Falha inesperada ao tentar deletar item.");
 
                 _credenciais.Remove(credencialView);
+
+                AtualizarStatus();
             }
         }
-
         private void AlterarItem(CredencialView credencialView)
         {
             if (credencialView == null)
@@ -173,11 +175,16 @@ namespace Presentation.Views
             CadastroCredencial cadastroCredencial = new CadastroCredencial(gSCredencial);
             cadastroCredencial.ShowDialog();
 
-            AtualizarCredencialView(cadastroCredencial.GSCredencialAtualizada);
-        }
+            if (cadastroCredencial.CredencialSalva)
+                AtualizarCredencialView(cadastroCredencial.GSCredencialAtualizada);
 
+            AtualizarStatus();
+        }
         private void AtualizarCredencialView(GSCredencial gSCredencial)
         {
+            if (gSCredencial == null)
+                return;
+
             var item = _credenciais.FirstOrDefault(i => i.PK_GSCredencial == gSCredencial.PK_GSCredencial);
 
             if (item == null)
@@ -206,6 +213,13 @@ namespace Presentation.Views
                 item.SenhaCriptografada = gSCredencial.Senha;
                 item.SenhaIV = gSCredencial.IVSenha;
             }
+        }
+        private void AtualizarStatus()
+        {
+            lblTotal.Content = "";
+
+            if (_credenciais.Count > 0)
+                lblTotal.Content = "Total: " + _credenciais.Count.ToString("N0");
         }
         #endregion
     }

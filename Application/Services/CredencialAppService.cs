@@ -17,7 +17,6 @@ using JJ.NET.CrossData;
 using JJ.NET.CrossData.DTO;
 using JJ.NET.Cryptography;
 using JJ.NET.Data;
-using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 
 namespace Application.Services
 {
@@ -68,7 +67,6 @@ namespace Application.Services
 
             return gSCredencialRepository.ObterLista(condicao);
         }
-
         public GSCredencial PesquisarPorID(int PK_GSCredencial)
         {
             return gSCredencialRepository.Obter(PK_GSCredencial);
@@ -77,12 +75,10 @@ namespace Application.Services
         {
             return Enum.GetValues(typeof(TipoDePesquisa)).Cast<TipoDePesquisa>().Select(tp => new Item { ID = ((int)tp).ToString(), Nome = tp.ToString() });
         }
-
         public IEnumerable<GSCategoria> ObterCategorias()
         {
             return gSCategoriaRepository.ObterLista();
         }
-
         public int SalvarCredencial(GSCredencial gSCredencial)
         {
             if (gSCredencial == null)
@@ -166,7 +162,6 @@ namespace Application.Services
 
             return PK_GESCredencial;
         }
-
         public bool DeletarCredencial(int PK_GSCredencial)
         {
             bool ret = false;

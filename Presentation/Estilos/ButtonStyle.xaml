@@ -42,7 +42,7 @@
 
             <!-- Efeito de desabilitado -->
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="HoverOverlayPreto" Property="Opacity" Value="0.5"/>
+                <Setter TargetName="HoverOverlayPreto" Property="Opacity" Value="0.1"/>
                 <Setter TargetName="HoverOverlayBranco" Property="Opacity" Value="0"/>
             </Trigger>
         </ControlTemplate.Triggers>

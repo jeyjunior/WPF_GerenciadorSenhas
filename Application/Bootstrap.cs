@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SimpleInjector;
 using Microsoft.Data.SqlClient;
+using SimpleInjector;
+using JJ.NET.Data;
+using JJ.NET.Data.Interfaces;
 using JJ.NET.CrossData;
 using JJ.NET.CrossData.Enumerador;
-using JJ.NET.Data.Interfaces;
-using JJ.NET.Data;
-using System.Data.Common;
-using Domain.Interfaces;
-using InfraData.Repository;
 using JJ.NET.CrossData.Extensao;
+using Domain.Interfaces;
 using Domain.Entidades;
+using InfraData.Repository;
 using Application.Interfaces;
 using Application.Services;
 
@@ -22,7 +21,6 @@ namespace Application
     public class Bootstrap
     {
         public static Container Container { get; private set; }
-
         public static void Inicializar()
         {
             try
@@ -66,16 +64,14 @@ namespace Application
                 throw new Exception("Erro inesperado.\n", ex);
             }
         }
-
         private static void IniciarBaseDeDados()
         {
             var uow = Container.GetInstance<IUnitOfWork>();
 
             CriarTabelas(uow);
             InserirInformacoesIniciais(uow);
-            // InserirInformacoesTeste(uow);
+            InserirInformacoesTeste();
         }
-    
         private static void CriarTabelas(IUnitOfWork uow)
         {
             bool gSCategoria = false;
@@ -118,7 +114,6 @@ namespace Application
             }
 
         }
-
         private static void InserirInformacoesIniciais(IUnitOfWork uow)
         {
             var gSCategoriaRepository = Container.GetInstance<IGSCategoriaRepository>();
@@ -171,18 +166,15 @@ namespace Application
             }
         }
 
-
         #region Teste
-        public static void InserirInformacoesTeste(IUnitOfWork uow)
+        public static void InserirInformacoesTeste()
         {
             var credencialAppService = Container.GetInstance<ICredencialAppService>();
             var random = new Random();
 
             try
             {
-                uow.Begin();
-
-                for (int i = 0; i < 50; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     var gSCredencial = new GSCredencial
                     {
@@ -190,27 +182,22 @@ namespace Application
                         Senha = GerarSenha(random),
                         FK_GSCategoria = random.Next(1, 15),
                         DataCriacao = GerarDataCriacao(random),
-                        DataModificacao = random.NextDouble() > 0.5 ? (DateTime?)GerarDataCriacao(random) : null 
+                        DataModificacao = random.NextDouble() > 0.5 ? (DateTime?)GerarDataCriacao(random) : null
                     };
 
                     credencialAppService.SalvarCredencial(gSCredencial);
                 }
-
-                uow.Commit();
             }
             catch (SqlException ex)
             {
-                uow.Rollback();
                 throw new Exception("Erro ao inserir informações iniciais", ex);
             }
             catch (IOException ex)
             {
-                uow.Rollback();
                 throw new Exception("Erro ao acessar arquivos durante a inserção de dados", ex);
             }
             catch (Exception ex)
             {
-                uow.Rollback();
                 throw new Exception("Erro inesperado ao inserir informações iniciais", ex);
             }
         }
