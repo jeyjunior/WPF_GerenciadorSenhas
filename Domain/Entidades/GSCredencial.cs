@@ -34,6 +34,10 @@ namespace Domain.Entidades
         [Editavel(false)]
         public ValidarResultado ValidarResultado { get; set; } = new ValidarResultado();
     }
+
+ 
+
+
     public class GSCredencialPesquisaRequest
     {
         public string Valor { get; set; }
@@ -42,3 +46,4 @@ namespace Domain.Entidades
         public ValidarResultado ValidarResultado { get; set; }
     }
 }
+

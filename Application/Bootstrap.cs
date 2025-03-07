@@ -70,7 +70,7 @@ namespace Application
 
             CriarTabelas(uow);
             InserirInformacoesIniciais(uow);
-            InserirInformacoesTeste();
+            //InserirInformacoesTeste();
         }
         private static void CriarTabelas(IUnitOfWork uow)
         {
@@ -112,11 +112,13 @@ namespace Application
                 uow.Rollback();
                 throw new Exception("Erro inesperado ao criar as tabelas", ex);
             }
-
         }
         private static void InserirInformacoesIniciais(IUnitOfWork uow)
         {
             var gSCategoriaRepository = Container.GetInstance<IGSCategoriaRepository>();
+
+
+            var teste = gSCategoriaRepository.Obter(1);
 
             try
             {

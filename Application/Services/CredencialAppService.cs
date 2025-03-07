@@ -73,7 +73,7 @@ namespace Application.Services
         }
         public IEnumerable<Item> ObterTipoDePesquisa()
         {
-            return Enum.GetValues(typeof(TipoDePesquisa)).Cast<TipoDePesquisa>().Select(tp => new Item { ID = ((int)tp).ToString(), Nome = tp.ToString() });
+            return Enum.GetValues(typeof(TipoDePesquisa)).Cast<TipoDePesquisa>().Select(tp => new Item { ID = ((int)tp).ToString(), Valor = tp.ToString() });
         }
         public IEnumerable<GSCategoria> ObterCategorias()
         {

@@ -10,6 +10,11 @@
     </Style>
 
     <!-- TEXTBLOCK GLYPH 20 -->
+    <Style x:Key="txbGlyphTemplate20Bold" TargetType="TextBlock" BasedOn="{StaticResource txbGlyphTemplate}">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    
     <Style x:Key="txbGlyphTemplate20" TargetType="TextBlock" BasedOn="{StaticResource txbGlyphTemplate}">
         <Setter Property="FontSize" Value="20"/>
     </Style>

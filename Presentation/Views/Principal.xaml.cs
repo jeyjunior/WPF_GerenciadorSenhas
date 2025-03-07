@@ -20,10 +20,12 @@ using Application.Interfaces;
 using Application;
 using System.Collections.ObjectModel;
 using System.Collections.Immutable;
+using JJ.NET.Core.DTO;
+using System.ComponentModel;
 
 namespace Presentation.Views
 {
-    public partial class Principal : Window
+    public partial class Principal : Window, INotifyPropertyChanged
     {
         #region Interfaces
         private readonly ICredencialAppService _credencialAppService;
@@ -33,6 +35,37 @@ namespace Presentation.Views
         #region Propriedades
         int indiceSelecionado = 0;
         private ObservableCollection<CredencialView> _credenciais;
+
+        private ObservableCollection<Item> _listaDeItens;
+        public ObservableCollection<Item> ListaDeItens
+        {
+            get { return _listaDeItens; }
+            set
+            {
+                _listaDeItens = value;
+                OnPropertyChanged(nameof(ListaDeItens));
+            }
+        }
+
+        private string _itemSelecionado;
+        public string ItemSelecionado
+        {
+            get { return _itemSelecionado; }
+            set
+            {
+                _itemSelecionado = value;
+                OnPropertyChanged(nameof(ItemSelecionado));
+            }
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+
+        #region Propriedades Publicas
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region Construtor
@@ -87,21 +120,24 @@ namespace Presentation.Views
         #endregion
 
         #region Metodos
+
         private void CarregarComboBoxTipoPesquisa()
         {
-            cboTipoDePesquisa.ItemsSource = _credencialAppService.ObterTipoDePesquisa();
-            cboTipoDePesquisa.DisplayMemberPath = "Nome";
-            cboTipoDePesquisa.SelectedValuePath = "ID";
-            cboTipoDePesquisa.SelectedValue = "0";
+            ListaDeItens = new ObservableCollection<Item>(_credencialAppService.ObterTipoDePesquisa().ToList());
+            ItemSelecionado = "Selecione um item"; 
+            //cboTipoDePesquisa.ItemsSource = _credencialAppService.ObterTipoDePesquisa();
+            //cboTipoDePesquisa.DisplayMemberPath = "Nome";
+            //cboTipoDePesquisa.SelectedValuePath = "ID";
+            //cboTipoDePesquisa.SelectedValue = "0";
         }
         private void Pesquisar()
         {
-            var tipoDePesquisa = cboTipoDePesquisa.SelectedValue.ToString();
+            var tipoDePesquisa = 0;// cboTipoDePesquisa.SelectedValue.ToString();
 
             var requisicao = new GSCredencialPesquisaRequest
             {
                 Valor = txtPesquisar.Text,
-                TipoDePesquisa = (TipoDePesquisa)tipoDePesquisa.ConverterParaInt32(),
+                TipoDePesquisa = 0//(TipoDePesquisa)tipoDePesquisa.ConverterParaInt32(),
             };
 
             var ret = _credencialAppService.Pesquisar(requisicao);

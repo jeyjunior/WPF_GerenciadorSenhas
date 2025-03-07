@@ -12,6 +12,8 @@
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/TextBlockStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ScrollBarStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/TextBoxStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/CredencialListBoxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

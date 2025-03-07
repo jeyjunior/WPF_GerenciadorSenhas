@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- TEXTBOX STANDARD -->
+    <Style x:Key="TextBoxStyle" TargetType="TextBox">
+        <Setter Property="BorderBrush" Value="{StaticResource Cinza1}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Cursor" Value="IBeam"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="border" 
+                                Background="{StaticResource Cinza1}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5"
+                                Padding="10,0,0,0">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Left"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Trigger para MouseEnter -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Cinza2}"/>
+                        </Trigger>
+                        <!-- Trigger para MouseLeave -->
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Nenhuma}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

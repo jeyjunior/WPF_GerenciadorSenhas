@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Presentation.Componentes.ComboBoxPersonalizado"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.Componentes"
+             mc:Ignorable="d" 
+             d:DesignHeight="42" d:DesignWidth="150">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Button Grid.Column="1" 
+                x:Name="btnComboBox"
+                Click="btnComboBox_Click"
+                Content="{Binding ItemSelecionadoDescricao}">
+
+        </Button>
+
+        <Popup 
+            x:Name="popupItens" 
+            Width="140" 
+            Placement="Bottom" 
+            HorizontalOffset="5"
+            StaysOpen="False">
+
+            <Border BorderBrush="Black" 
+                    BorderThickness="1" 
+                    CornerRadius="15">
+                
+                <ListBox ItemsSource="{Binding Itens}" 
+                         Height="{Binding AlturaListBox}"
+                         SelectedItem="{Binding ItemSelecionado, Mode=TwoWay}">
+                    
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0" x:Name="colID"/>
+                                    <ColumnDefinition Width="*" x:Name="colDescricao"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding ID}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Valor}" Height="24" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+            
+        </Popup>
+    </Grid>
+</UserControl>
