@@ -1,6 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- TEXTBLOCK PADRAO -->
+    <Style x:Key="txbTemplate" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{StaticResource Branco}"/>
+    </Style>
+    
+    <!-- TEXTBLOCK 14 -->
+    <Style x:Key="txbTemplate14" TargetType="TextBlock" BasedOn="{StaticResource txbTemplate}">
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
     <!-- TEXTBLOCK GLYPH PADRAO -->
     <Style x:Key="txbGlyphTemplate" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>

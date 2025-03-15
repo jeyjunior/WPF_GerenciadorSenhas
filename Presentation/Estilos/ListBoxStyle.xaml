@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- LIST BOX BASE -->
+    <Style x:Key="ltbBase" TargetType="ListBox">
+        <Setter Property="Background" Value="{StaticResource Cinza7}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Nenhuma}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+        
+</ResourceDictionary>

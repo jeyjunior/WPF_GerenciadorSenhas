@@ -14,6 +14,7 @@ namespace Application.Interfaces
         IEnumerable<GSCredencial> Pesquisar(GSCredencialPesquisaRequest requisicao);
         GSCredencial PesquisarPorID(int PK_GSCredencial);
         ObservableCollection<Item> ObterTipoDePesquisa();
+        ObservableCollection<Item> ObterTipoDeOrdenacao();
         IEnumerable<GSCategoria> ObterCategorias();
         int SalvarCredencial(GSCredencial gSCredencial);
         bool DeletarCredencial(int PK_GSCredencial);

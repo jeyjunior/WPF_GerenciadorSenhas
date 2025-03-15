@@ -20,8 +20,9 @@ using Application.Interfaces;
 using Application;
 using System.Collections.ObjectModel;
 using System.Collections.Immutable;
-using JJ.NET.Core.DTO;
 using System.ComponentModel;
+using JJ.NET.Core.DTO;
+using System.DirectoryServices;
 
 namespace Presentation.Views
 {
@@ -45,7 +46,9 @@ namespace Presentation.Views
                 OnPropertyChanged(nameof(ListaDeItens));
             }
         }
-        public ObservableCollection<Item> TipoDePesquisaItens { get; set; }
+        private IEnumerable<GSCredencial> gSCredencials;
+        private TipoDeOrdenacao ultimaOrdenacao;
+        private SortDirection direcaoOrdenacao;
 
         private string _itemSelecionado;
         public string ItemSelecionado
@@ -81,7 +84,8 @@ namespace Presentation.Views
         #region Eventos
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            CarregarComboBoxTipoPesquisa();
+            CarregarComboBoxTipoDeOrdenacao();
+            CarregarComboBoxTipoDePesquisa();
             Pesquisar();
         }
         private void btnPesquisar_Click(object sender, RoutedEventArgs e)
@@ -112,37 +116,123 @@ namespace Presentation.Views
         {
 
         }
-
         private void btnOrdenacao_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                Item tipoDeOrdenacao = cboTipoOrdenacao.ViewModel.ItemSelecionado;
 
+                switch ((TipoDeOrdenacao)tipoDeOrdenacao.ID.ConverterParaInt32(0))
+                {
+                    case TipoDeOrdenacao.Cadastro:
+                        if (ultimaOrdenacao == TipoDeOrdenacao.Cadastro && direcaoOrdenacao == SortDirection.Ascending)
+                        {
+                            gSCredencials = gSCredencials.OrderByDescending(i => i.DataCriacao).ToList();
+                            direcaoOrdenacao = SortDirection.Descending;
+                        }
+                        else
+                        {
+                            gSCredencials = gSCredencials.OrderBy(i => i.DataCriacao).ToList();
+                            direcaoOrdenacao = SortDirection.Ascending;
+                        }
+
+                        break;
+                    case TipoDeOrdenacao.Modificação:
+                        if (ultimaOrdenacao == TipoDeOrdenacao.Modificação && direcaoOrdenacao == SortDirection.Ascending)
+                        {
+                            gSCredencials = gSCredencials.OrderByDescending(i => i.DataModificacao).ToList();
+                            direcaoOrdenacao = SortDirection.Descending;
+                        }
+                        else
+                        {
+                            gSCredencials = gSCredencials.OrderBy(i => i.DataModificacao).ToList();
+                            direcaoOrdenacao = SortDirection.Ascending;
+                        }
+
+                        break;
+                    case TipoDeOrdenacao.Categoria:
+                        if (ultimaOrdenacao == TipoDeOrdenacao.Categoria && direcaoOrdenacao == SortDirection.Ascending)
+                        {
+                            gSCredencials = gSCredencials.OrderByDescending(i => i.GSCategoria?.Categoria.ObterValorOuPadrao("").Trim()).ToList();
+                            direcaoOrdenacao = SortDirection.Descending;
+                        }
+                        else
+                        {
+                            gSCredencials = gSCredencials.OrderBy(i => i.GSCategoria?.Categoria.ObterValorOuPadrao("").Trim()).ToList();
+                            direcaoOrdenacao = SortDirection.Ascending;
+                        }
+
+                        break;
+                    case TipoDeOrdenacao.Credencial:
+
+                        if (ultimaOrdenacao == TipoDeOrdenacao.Credencial && direcaoOrdenacao == SortDirection.Ascending)
+                        {
+                            gSCredencials = gSCredencials.OrderByDescending(i => i.Credencial).ToList();
+                            direcaoOrdenacao = SortDirection.Descending;
+                        }
+                        else
+                        {
+                            gSCredencials = gSCredencials.OrderBy(i => i.Credencial).ToList();
+                            direcaoOrdenacao = SortDirection.Ascending;
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+
+                BindPrincipal();
+                AtualizarUltimaOrdenacao();
+                AtualizarStatus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         #endregion
 
         #region Metodos
-        private void CarregarComboBoxTipoPesquisa()
+        private void CarregarComboBoxTipoDePesquisa()
         {
             cboTipoDePesquisa.ViewModel.Itens = _credencialAppService.ObterTipoDePesquisa();
             cboTipoDePesquisa.ViewModel.ItemSelecionado = cboTipoDePesquisa.ViewModel.Itens[0];
         }
+
+        private void CarregarComboBoxTipoDeOrdenacao()
+        {
+            cboTipoOrdenacao.ViewModel.Itens = _credencialAppService.ObterTipoDeOrdenacao();
+            cboTipoOrdenacao.ViewModel.ItemSelecionado = cboTipoOrdenacao.ViewModel.Itens[0];
+        }
         private void Pesquisar()
         {
-            var tipoDePesquisa = 0;// cboTipoDePesquisa.SelectedValue.ToString();
-
-            var requisicao = new GSCredencialPesquisaRequest
+            try
             {
-                Valor = txtPesquisar.Text,
-                TipoDePesquisa = 0//(TipoDePesquisa)tipoDePesquisa.ConverterParaInt32(),
-            };
+                Item tipoDeOrdenacao = cboTipoOrdenacao.ViewModel.ItemSelecionado;
+                Item tipoDePesquisa = cboTipoDePesquisa.ViewModel.ItemSelecionado;
 
-            var ret = _credencialAppService.Pesquisar(requisicao);
-            BindPrincipal(ret);
+                var requisicao = new GSCredencialPesquisaRequest
+                {
+                    Valor = txtPesquisar.Text,
+                    TipoDePesquisa = (TipoDePesquisa)tipoDePesquisa.ID.ConverterParaInt32(0),
+                    TipoDeOrdenacao = (TipoDeOrdenacao)tipoDeOrdenacao.ID.ConverterParaInt32(0)
+                };
 
-            AtualizarStatus();
+                gSCredencials = _credencialAppService.Pesquisar(requisicao);
+                BindPrincipal();
+                AtualizarUltimaOrdenacao();
+                AtualizarStatus();
+
+                direcaoOrdenacao = SortDirection.Ascending;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
-        private void BindPrincipal(IEnumerable<GSCredencial> gSCredencials)
+        private void BindPrincipal()
         {
-            if (gSCredencials != null)
+            if (gSCredencials != null && gSCredencials.Count() > 0)
             {
                 _credenciais = new ObservableCollection<CredencialView>(
                     gSCredencials.Select(i => new CredencialView(_configuracaoAppService)
@@ -251,6 +341,11 @@ namespace Presentation.Views
 
             if (_credenciais.Count > 0)
                 lblTotal.Content = "Total: " + _credenciais.Count.ToString("N0");
+        }
+        
+        private void AtualizarUltimaOrdenacao()
+        {
+            ultimaOrdenacao = (TipoDeOrdenacao)((Item)cboTipoOrdenacao.ViewModel.ItemSelecionado).ID.ConverterParaInt32();
         }
         #endregion
     }

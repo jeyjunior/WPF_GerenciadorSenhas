@@ -9,7 +9,9 @@
         <Button Grid.Column="1" 
                 x:Name="btnComboBox"
                 Click="btnComboBox_Click"
-                Style="{StaticResource btnCornerStyle}"
+                Style="{StaticResource btnPadraoComboBox}"
+                Foreground="{StaticResource Branco}"
+                Background="{StaticResource Cinza8}"
                 Content="{Binding ItemSelecionadoDescricao}">
         </Button>
 
@@ -25,9 +27,10 @@
                     CornerRadius="15">
                 
                 <ListBox ItemsSource="{Binding Itens}" 
-                         SelectionChanged="ListBox_SelectionChanged"
                          Height="{Binding AlturaListBox}"
-                         SelectedItem="{Binding ItemSelecionado, Mode=TwoWay}">
+                         SelectedItem="{Binding ItemSelecionado, Mode=TwoWay}"
+                         Style="{StaticResource ltbBase}"
+                         SelectionChanged="ListBox_SelectionChanged">
                     
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -37,7 +40,7 @@
                                     <ColumnDefinition Width="*" x:Name="colDescricao"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding ID}"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Valor}" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Valor}" Style="{StaticResource txbTemplate14}"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

@@ -38,16 +38,14 @@
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
 
-            <ComboBox Grid.Column="0" 
-                      x:Name="cboTipoOrdenacao"/>
-
+            <comp:ComboBoxPersonalizado Grid.Column="0" x:Name="cboTipoOrdenacao" Width="100" Height="38"/>
+            
             <Button Grid.Column="1" x:Name="btnOrdenacao" Click="btnOrdenacao_Click" Style="{StaticResource btnPadrao38}"  Background="{DynamicResource Cinza8}">
                 <TextBlock Style="{StaticResource txbGlyphTemplate20Bold}" Text="&#xE71C;"/>
             </Button>
 
-            <!--<ComboBox Grid.Column="3" x:Name="cboTipoDePesquisa" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14" FontWeight="Medium" Foreground="{StaticResource Cinza8}"/>-->
-            <comp:ComboBoxPersonalizado x:Name="cboTipoDePesquisa" Width="100" Height="38" Grid.Column="3" />
-
+            <comp:ComboBoxPersonalizado Grid.Column="3" x:Name="cboTipoDePesquisa" Width="100" Height="38"/>
+            
             <TextBox Grid.Column="4" Text="" x:Name="txtPesquisar" Style="{StaticResource TextBoxStyle}"/>
 
             <Button Grid.Column="5" x:Name="btnPesquisar" Click="btnPesquisar_Click" Style="{StaticResource btnPadrao38}" Background="{DynamicResource Cinza8}">

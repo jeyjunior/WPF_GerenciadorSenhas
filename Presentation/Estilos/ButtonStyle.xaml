@@ -60,6 +60,15 @@
         <Setter Property="Template" Value="{StaticResource btnCornerTemplate}"/>
     </Style>
 
+    <!-- BOTÃO PADRÃO COMBO BOX -->
+    <Style x:Key="btnPadraoComboBox" TargetType="Button" BasedOn="{StaticResource btnBase}">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="{StaticResource Cinza8}"/>
+        <Setter Property="Foreground" Value="{StaticResource Branco}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
     <!-- BOTÃO PADRÃO 38 -->
     <Style x:Key="btnPadrao38" TargetType="Button" BasedOn="{StaticResource btnBase}">
         <Setter Property="Width" Value="38"/>

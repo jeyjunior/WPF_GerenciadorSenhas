@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/TextBoxStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/CredencialListBoxStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ListBoxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <conversores:ConversorLargura x:Key="ConversorLargura"/>

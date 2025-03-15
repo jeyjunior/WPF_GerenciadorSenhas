@@ -12,4 +12,12 @@ namespace Domain.Enumeradores
         Categoria = 1,
         Credencial = 2,
     }
+
+    public enum TipoDeOrdenacao
+    {
+        Cadastro = 0,
+        Modificação = 1,
+        Categoria = 2,
+        Credencial = 3
+    }
 }

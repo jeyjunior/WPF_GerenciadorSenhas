@@ -42,6 +42,7 @@ namespace Domain.Entidades
     {
         public string Valor { get; set; }
         public TipoDePesquisa TipoDePesquisa { get; set; }
+        public TipoDeOrdenacao TipoDeOrdenacao { get; set; }
 
         public ValidarResultado ValidarResultado { get; set; }
     }

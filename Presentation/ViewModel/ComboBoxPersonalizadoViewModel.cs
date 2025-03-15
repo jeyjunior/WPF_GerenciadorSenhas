@@ -57,7 +57,7 @@ namespace Presentation.ViewModel
         }
         private void CalcularAlturaListBox()
         {
-            double alturaDaLinha = 30; 
+            double alturaDaLinha = 24; 
             double alturaMaxima = alturaDaLinha * 5; 
 
             AlturaListBox = (_itens.Count < 5) ? alturaDaLinha * _itens.Count : alturaMaxima;

@@ -42,12 +42,22 @@ namespace Application.Services
         #region Metodos
         public IEnumerable<GSCredencial> Pesquisar(GSCredencialPesquisaRequest requisicao)
         {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             if (requisicao == null)
                 return new List<GSCredencial>();
 
             requisicao.ValidarResultado = new ValidarResultado();
 
             string condicao = "";
+            string ordernacao = "";
             string valor = requisicao.Valor.LimparEntradaSQL();
 
             switch (requisicao.TipoDePesquisa)
@@ -66,7 +76,18 @@ namespace Application.Services
                     break;
             }
 
-            return gSCredencialRepository.ObterLista(condicao);
+            switch (requisicao.TipoDeOrdenacao)
+            {
+                case TipoDeOrdenacao.Cadastro: ordernacao = " GSCredencial.DataCriacao, GSCredencial.DataModificacao, GSCategoria.Categoria, GSCredencial.Credencial "; break;
+                case TipoDeOrdenacao.Modificação: ordernacao = " GSCredencial.DataModificacao, GSCategoria.Categoria, GSCredencial.Credencial "; break;
+                case TipoDeOrdenacao.Categoria: ordernacao = " GSCategoria.Categoria, GSCredencial.DataModificacao, GSCredencial.Credencial "; break;
+                case TipoDeOrdenacao.Credencial: ordernacao = " GSCredencial.Credencial, GSCategoria.Categoria, GSCredencial.DataModificacao "; break;
+            }
+
+            if (ordernacao.ObterValorOuPadrao("").Trim() != "")
+                ordernacao = "ORDER   BY \n" + ordernacao + " DESC";
+
+            return gSCredencialRepository.ObterLista(condicao, ordernacao);
         }
         public GSCredencial PesquisarPorID(int PK_GSCredencial)
         {
@@ -83,6 +104,20 @@ namespace Application.Services
 
             return tipoDePesquisa;
         }
+
+        public ObservableCollection<Item> ObterTipoDeOrdenacao()
+        {
+            var tipoDeOrdenacao = new ObservableCollection<Item>()
+            {
+                new Item { ID = ((int)TipoDeOrdenacao.Cadastro).ToString(), Valor = TipoDeOrdenacao.Cadastro.ToString()},
+                new Item { ID = ((int)TipoDeOrdenacao.Modificação).ToString(), Valor = TipoDeOrdenacao.Modificação.ToString()},
+                new Item { ID = ((int)TipoDeOrdenacao.Categoria).ToString(), Valor = TipoDeOrdenacao.Categoria.ToString()},
+                new Item { ID = ((int)TipoDeOrdenacao.Credencial).ToString(), Valor = TipoDeOrdenacao.Credencial.ToString()},
+            };
+
+            return tipoDeOrdenacao;
+        }
+
         public IEnumerable<GSCategoria> ObterCategorias()
         {
             return gSCategoriaRepository.ObterLista();
@@ -138,7 +173,6 @@ namespace Application.Services
             credencial.IVSenha = criptografarResult.IV;
 
             int PK_GESCredencial = -1;
-
 
             using (var uow = new UnitOfWork(ConfiguracaoBancoDados.ObterConexao()))
             {

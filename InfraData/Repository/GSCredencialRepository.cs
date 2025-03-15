@@ -51,5 +51,28 @@ namespace InfraData.Repository
 
             return resultado;
         }
+
+        public IEnumerable<GSCredencial> ObterLista(string condition = "", string orderBy = "", object parameters = null)
+        {
+            string query = QUERY;
+
+            if (condition.ObterValorOuPadrao("").Trim() != "")
+                query += " WHERE " + condition + "\n";
+
+            query += (orderBy.ObterValorOuPadrao("").Trim() != "") ? orderBy : ORDERBY;
+
+            var resultado = unitOfWork.Connection.Query<GSCredencial, GSCategoria, GSCredencial>(
+                sql: query.ToSQL(),
+                map: (credencial, categoria) =>
+                {
+                    credencial.GSCategoria = categoria;
+                    return credencial;
+                },
+                param: parameters,
+                splitOn: "PK_GSCredencial, PK_GSCategoria")
+                .ToList();
+
+            return resultado;
+        }
     }
 }
