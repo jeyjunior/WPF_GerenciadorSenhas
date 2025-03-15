@@ -23,8 +23,7 @@ namespace Presentation.ViewModel
             set
             {
                 _itens = value;
-                OnPropertyChanged(nameof(_itens));
-
+                OnPropertyChanged(nameof(Itens));
                 CalcularAlturaListBox();
             }
         }
@@ -58,7 +57,7 @@ namespace Presentation.ViewModel
         }
         private void CalcularAlturaListBox()
         {
-            double alturaDaLinha = 24; 
+            double alturaDaLinha = 30; 
             double alturaMaxima = alturaDaLinha * 5; 
 
             AlturaListBox = (_itens.Count < 5) ? alturaDaLinha * _itens.Count : alturaMaxima;

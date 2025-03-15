@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Application.Interfaces
     {
         IEnumerable<GSCredencial> Pesquisar(GSCredencialPesquisaRequest requisicao);
         GSCredencial PesquisarPorID(int PK_GSCredencial);
-        IEnumerable<Item> ObterTipoDePesquisa();
+        ObservableCollection<Item> ObterTipoDePesquisa();
         IEnumerable<GSCategoria> ObterCategorias();
         int SalvarCredencial(GSCredencial gSCredencial);
         bool DeletarCredencial(int PK_GSCredencial);

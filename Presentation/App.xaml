@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Presentation"
              StartupUri="Views/Principal.xaml"
              Startup="Application_Startup"
+             xmlns:conversores="clr-namespace:Presentation.Conversores"
              LoadCompleted="Application_LoadCompleted">
     <Application.Resources>
         <ResourceDictionary>
@@ -16,6 +17,9 @@
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/CredencialListBoxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <conversores:ConversorLargura x:Key="ConversorLargura"/>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

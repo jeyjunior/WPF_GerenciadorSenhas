@@ -70,7 +70,7 @@ namespace Application
 
             CriarTabelas(uow);
             InserirInformacoesIniciais(uow);
-            //InserirInformacoesTeste();
+            // InserirInformacoesTeste();
         }
         private static void CriarTabelas(IUnitOfWork uow)
         {
@@ -116,9 +116,6 @@ namespace Application
         private static void InserirInformacoesIniciais(IUnitOfWork uow)
         {
             var gSCategoriaRepository = Container.GetInstance<IGSCategoriaRepository>();
-
-
-            var teste = gSCategoriaRepository.Obter(1);
 
             try
             {
@@ -176,7 +173,7 @@ namespace Application
 
             try
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     var gSCredencial = new GSCredencial
                     {

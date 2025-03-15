@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -71,9 +72,16 @@ namespace Application.Services
         {
             return gSCredencialRepository.Obter(PK_GSCredencial);
         }
-        public IEnumerable<Item> ObterTipoDePesquisa()
+        public ObservableCollection<Item> ObterTipoDePesquisa()
         {
-            return Enum.GetValues(typeof(TipoDePesquisa)).Cast<TipoDePesquisa>().Select(tp => new Item { ID = ((int)tp).ToString(), Valor = tp.ToString() });
+            var tipoDePesquisa = new ObservableCollection<Item>()
+            {
+                new Item { ID = ((int)TipoDePesquisa.Todos).ToString(), Valor = TipoDePesquisa.Todos.ToString()},
+                new Item { ID = ((int)TipoDePesquisa.Categoria).ToString(), Valor = TipoDePesquisa.Categoria.ToString()},
+                new Item { ID = ((int)TipoDePesquisa.Credencial).ToString(), Valor = TipoDePesquisa.Credencial.ToString()},
+            };
+
+            return tipoDePesquisa;
         }
         public IEnumerable<GSCategoria> ObterCategorias()
         {

@@ -48,6 +48,10 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <Style x:Key="btnCornerStyle" TargetType="Button">
+        <Setter Property="Template" Value="{StaticResource btnCornerTemplate}"/>
+    </Style>
+    
     <!-- BOTÃO BASE -->
     <Style x:Key="btnBase" TargetType="Button">
         <Setter Property="VerticalAlignment" Value="Center"/>

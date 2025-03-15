@@ -35,7 +35,6 @@ namespace Presentation.Views
         #region Propriedades
         int indiceSelecionado = 0;
         private ObservableCollection<CredencialView> _credenciais;
-
         private ObservableCollection<Item> _listaDeItens;
         public ObservableCollection<Item> ListaDeItens
         {
@@ -46,6 +45,7 @@ namespace Presentation.Views
                 OnPropertyChanged(nameof(ListaDeItens));
             }
         }
+        public ObservableCollection<Item> TipoDePesquisaItens { get; set; }
 
         private string _itemSelecionado;
         public string ItemSelecionado
@@ -120,15 +120,10 @@ namespace Presentation.Views
         #endregion
 
         #region Metodos
-
         private void CarregarComboBoxTipoPesquisa()
         {
-            ListaDeItens = new ObservableCollection<Item>(_credencialAppService.ObterTipoDePesquisa().ToList());
-            ItemSelecionado = "Selecione um item"; 
-            //cboTipoDePesquisa.ItemsSource = _credencialAppService.ObterTipoDePesquisa();
-            //cboTipoDePesquisa.DisplayMemberPath = "Nome";
-            //cboTipoDePesquisa.SelectedValuePath = "ID";
-            //cboTipoDePesquisa.SelectedValue = "0";
+            cboTipoDePesquisa.ViewModel.Itens = _credencialAppService.ObterTipoDePesquisa();
+            cboTipoDePesquisa.ViewModel.ItemSelecionado = cboTipoDePesquisa.ViewModel.Itens[0];
         }
         private void Pesquisar()
         {
