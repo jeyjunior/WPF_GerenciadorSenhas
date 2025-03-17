@@ -16,6 +16,7 @@ using Application.Interfaces;
 using Application.Services;
 using Domain.Entidades;
 using Domain.Enumeradores;
+using JJ.NET.Core.DTO;
 using JJ.NET.Core.Extensoes;
 
 namespace Presentation.Views
@@ -58,6 +59,8 @@ namespace Presentation.Views
         {
             try
             {
+                Item categoria = cboCategoria.ViewModel.ItemSelecionado;
+
                 var gSCredencial = new GSCredencial
                 {
                     PK_GSCredencial = GSCredencialAtualizada.PK_GSCredencial,
@@ -66,7 +69,7 @@ namespace Presentation.Views
                     IVSenha = GSCredencialAtualizada.IVSenha.ObterValorOuPadrao(""),
                     DataCriacao = (GSCredencialAtualizada.PK_GSCredencial > 0) ? GSCredencialAtualizada.DataCriacao : DateTime.Now,
                     DataModificacao = null,
-                    FK_GSCategoria = (int)cboCategoria.SelectedValue,
+                    FK_GSCategoria = categoria != null ? categoria.ID.ConverterParaInt32() : null,
                 };
 
                 var PK_GSCredencial = _credencialAppService.SalvarCredencial(gSCredencial);
@@ -154,7 +157,7 @@ namespace Presentation.Views
 
                 txtCredencial.Text = "";
                 txtSenha.Password = "";
-                cboCategoria.SelectedIndex = 0;
+                cboCategoria.ViewModel.SelecionarItemPorID("0");
             }
             else
             {
@@ -174,17 +177,15 @@ namespace Presentation.Views
                 txtCredencial.Text = GSCredencialAtualizada.Credencial;
 
                 if (GSCredencialAtualizada.FK_GSCategoria != null)
-                    cboCategoria.SelectedValue = GSCredencialAtualizada.FK_GSCategoria.ObterValorOuPadrao(0);
+                    cboCategoria.ViewModel.SelecionarItemPorID(GSCredencialAtualizada.FK_GSCategoria.ObterValorOuPadrao(0));
             }
 
             txtCredencial.Focus();
         }
         private void BindComboBoxCategoria()
         {
-            cboCategoria.ItemsSource = _credencialAppService.ObterCategorias().ToList();
-            cboCategoria.DisplayMemberPath = "Categoria";
-            cboCategoria.SelectedValuePath = "PK_GSCategoria";
-            cboCategoria.SelectedValue = "0";
+            cboCategoria.ViewModel.Itens = _credencialAppService.ObterCategoriasObservableCollection();
+            cboCategoria.ViewModel.SelecionarItemPorID("0");
         }
         public void Dispose()
         {

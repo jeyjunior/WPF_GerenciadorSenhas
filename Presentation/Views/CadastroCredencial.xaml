@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation.Views"
+        xmlns:comp="clr-namespace:Presentation.Componentes"
         mc:Ignorable="d"
         Background="{StaticResource Cinza13}"
         Loaded="Window_Loaded"
@@ -39,16 +40,22 @@
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="48"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="44"/>
+                    <ColumnDefinition Width="44"/>
                 </Grid.ColumnDefinitions>
+                
                 <Label Grid.Column="0" Content="Credencial" FontSize="20" FontWeight="Regular" Foreground="{DynamicResource Branco}" VerticalAlignment="Bottom"/>
-                <Button Grid.Column="1" x:Name="btnGerarCredencialAleatoria" Click="btnGerarCredencialAleatoria_Click" />
-                <Button Grid.Column="3" x:Name="btnConfigurarCredencial" Click="btnConfigurarCredencial_Click" />
+
+                <Button Grid.Column="1" x:Name="btnGerarCredencialAleatoria" Click="btnGerarCredencialAleatoria_Click"  Style="{StaticResource btnPadrao42}"  Background="{DynamicResource Cinza8}" ToolTip="Gerar credencial aleatória">
+                    <TextBlock Style="{StaticResource txbGlyphTemplate20Bold}" Text="&#xE72C;"/>
+                </Button>
+
+                <Button Grid.Column="2" x:Name="btnConfigurarCredencial" Click="btnConfigurarCredencial_Click" Style="{StaticResource btnPadrao42}"  Background="{DynamicResource Cinza8}" ToolTip="Configurar o modelo de credencial aleatória">
+                    <TextBlock Style="{StaticResource txbGlyphTemplate20Bold}" Text="&#xE713;"/>
+                </Button>
             </Grid>
 
-            <TextBox Grid.Row="2" x:Name="txtCredencial"/>
+            <TextBox Grid.Row="2" x:Name="txtCredencial" Style="{StaticResource TextBoxStyle}"/>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -61,14 +68,19 @@
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="48"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="44"/>
+                    <ColumnDefinition Width="44"/>
                 </Grid.ColumnDefinitions>
                 
                 <Label Grid.Column="0" Content="Senha" FontSize="20" FontWeight="Regular" Foreground="{DynamicResource Branco}" VerticalAlignment="Bottom"/>
-                <Button Grid.Column="1" x:Name="btnGerarSenhaAleatoria" Click="btnGerarSenhaAleatoria_Click" />
-                <Button Grid.Column="3" x:Name="btnConfigurarSenha" Click="btnConfigurarSenha_Click" />
+
+                <Button Grid.Column="1" x:Name="btnGerarSenhaAleatoria" Click="btnGerarSenhaAleatoria_Click"  Style="{StaticResource btnPadrao42}"  Background="{DynamicResource Cinza8}" ToolTip="Gerar senha aleatória">
+                    <TextBlock Style="{StaticResource txbGlyphTemplate20Bold}" Text="&#xE72C;"/>
+                </Button>
+
+                <Button Grid.Column="2" x:Name="btnConfigurarSenha" Click="btnConfigurarSenha_Click" Style="{StaticResource btnPadrao42}"  Background="{DynamicResource Cinza8}" ToolTip="Configurar o modelo de senha aleatória">
+                    <TextBlock Style="{StaticResource txbGlyphTemplate20Bold}" Text="&#xE713;"/>
+                </Button>
             </Grid>
 
             <Grid Grid.Row="2">
@@ -78,7 +90,7 @@
                 </Grid.ColumnDefinitions>
 
                 <PasswordBox Grid.Column="0" x:Name="txtSenha" PasswordChanged="txtSenha_PasswordChanged"  Password="" VerticalContentAlignment="Center" Visibility="Visible" AllowDrop="True"/>
-                <TextBox x:Name="txtSenhaVisivel" Grid.Column="0" TextChanged="txtSenhaVisivel_TextChanged" VerticalContentAlignment="Center" Visibility="Collapsed"/>
+                <TextBox x:Name="txtSenhaVisivel" Grid.Column="0" TextChanged="txtSenhaVisivel_TextChanged" VerticalContentAlignment="Center" Visibility="Collapsed" Style="{StaticResource TextBoxStyle}"/>
                 <Button Grid.Column="1" x:Name="btnExibirSenha" Click="btnExibirSenha_Click"/>
             </Grid>
         </Grid>
@@ -93,14 +105,16 @@
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="8"/>
-                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="44"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Categoria" FontSize="20" FontWeight="Regular" Foreground="{DynamicResource Branco}" VerticalAlignment="Bottom"/>
-                <Button Grid.Column="2" x:Name="btnCadastrarCategoria" Click="btnCadastrarCategoria_Click"/>
+
+                <Button Grid.Column="1" x:Name="btnCadastrarCategoria" Click="btnCadastrarCategoria_Click" Style="{StaticResource btnPadrao42}"  Background="{DynamicResource Cinza8}" ToolTip="Adicionar categoria">
+                    <TextBlock Style="{StaticResource txbGlyphTemplate20Bold}" Text="&#xE710;"/>
+                </Button>
             </Grid>
 
-            <ComboBox Grid.Row="2" x:Name="cboCategoria"/>
+            <comp:ComboBoxPersonalizado Grid.Row="2" x:Name="cboCategoria" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
 
         <Grid Grid.Row="8">

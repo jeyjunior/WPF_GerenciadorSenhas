@@ -62,5 +62,29 @@ namespace Presentation.ViewModel
 
             AlturaListBox = (_itens.Count < 5) ? alturaDaLinha * _itens.Count : alturaMaxima;
         }
+
+        public bool SelecionarItemPorID(string id)
+        {
+            bool selecionouItem = false;
+
+            if (_itens != null && _itens.Any())
+            {
+                var item = _itens.FirstOrDefault(i => i.ID == id); 
+                ItemSelecionado = item ?? null;
+
+                selecionouItem = (ItemSelecionado != null);
+            }
+            else
+            {
+                ItemSelecionado = null; 
+            }
+
+            return selecionouItem;
+        }
+
+        public bool SelecionarItemPorID(int id)
+        {
+            return SelecionarItemPorID(id.ToString());
+        }
     }
 }

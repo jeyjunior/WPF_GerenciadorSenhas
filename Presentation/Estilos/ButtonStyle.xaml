@@ -69,6 +69,18 @@
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
+    <!-- BOTÃO PADRÃO 42 -->
+    <Style x:Key="btnPadrao42" TargetType="Button" BasedOn="{StaticResource btnBase}">
+        <Setter Property="Width" Value="42"/>
+        <Setter Property="Height" Value="42"/>
+    </Style>
+    
+    <!-- BOTÃO PADRÃO 40 -->
+    <Style x:Key="btnPadrao40" TargetType="Button" BasedOn="{StaticResource btnBase}">
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Height" Value="40"/>
+    </Style>
+
     <!-- BOTÃO PADRÃO 38 -->
     <Style x:Key="btnPadrao38" TargetType="Button" BasedOn="{StaticResource btnBase}">
         <Setter Property="Width" Value="38"/>

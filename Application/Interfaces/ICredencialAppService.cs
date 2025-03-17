@@ -16,6 +16,7 @@ namespace Application.Interfaces
         ObservableCollection<Item> ObterTipoDePesquisa();
         ObservableCollection<Item> ObterTipoDeOrdenacao();
         IEnumerable<GSCategoria> ObterCategorias();
+        ObservableCollection<Item> ObterCategoriasObservableCollection();
         int SalvarCredencial(GSCredencial gSCredencial);
         bool DeletarCredencial(int PK_GSCredencial);
     }

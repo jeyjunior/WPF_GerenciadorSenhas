@@ -122,6 +122,17 @@ namespace Application.Services
         {
             return gSCategoriaRepository.ObterLista();
         }
+        public ObservableCollection<Item> ObterCategoriasObservableCollection()
+        {
+            var gSCategoria = gSCategoriaRepository.ObterLista();
+            var gSCategoriaObservableCollection = new ObservableCollection<Item>();
+
+            foreach (var item in gSCategoria)
+                gSCategoriaObservableCollection.Add(new Item { ID = item.PK_GSCategoria.ToString(), Valor = item.Categoria.ToString() });
+
+            return gSCategoriaObservableCollection;
+        }
+
         public int SalvarCredencial(GSCredencial gSCredencial)
         {
             if (gSCredencial == null)
