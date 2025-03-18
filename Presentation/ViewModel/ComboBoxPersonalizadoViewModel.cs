@@ -58,9 +58,9 @@ namespace Presentation.ViewModel
         private void CalcularAlturaListBox()
         {
             double alturaDaLinha = 24; 
-            double alturaMaxima = alturaDaLinha * 5; 
+            double alturaMaxima = alturaDaLinha * 10; 
 
-            AlturaListBox = (_itens.Count < 5) ? alturaDaLinha * _itens.Count : alturaMaxima;
+            AlturaListBox = (_itens.Count < 10) ? alturaDaLinha * _itens.Count : alturaMaxima;
         }
 
         public bool SelecionarItemPorID(string id)
@@ -86,5 +86,23 @@ namespace Presentation.ViewModel
         {
             return SelecionarItemPorID(id.ToString());
         }
+
+        public bool SelecionarItemPorIndice(int indice)
+        {
+            if (_itens == null || !_itens.Any())
+            {
+                ItemSelecionado = null;
+                return false;
+            }
+
+            if (indice < 0)
+                indice = 0;
+            else if (indice >= _itens.Count)
+                indice = _itens.Count - 1;
+
+            ItemSelecionado = _itens[indice]; 
+            return true;
+        }
+
     }
 }

@@ -233,12 +233,12 @@ namespace Presentation.Views
         private void CarregarComboBoxTipoDePesquisa()
         {
             cboTipoDePesquisa.ViewModel.Itens = _credencialAppService.ObterTipoDePesquisa();
-            cboTipoDePesquisa.ViewModel.SelecionarItemPorID("0");
+            cboTipoDePesquisa.ViewModel.SelecionarItemPorIndice(0);
         }
         private void CarregarComboBoxTipoDeOrdenacao()
         {
             cboTipoOrdenacao.ViewModel.Itens = _credencialAppService.ObterTipoDeOrdenacao();
-            cboTipoOrdenacao.ViewModel.SelecionarItemPorID("0");
+            cboTipoOrdenacao.ViewModel.SelecionarItemPorIndice(0);
         }
         private void Pesquisar()
         {

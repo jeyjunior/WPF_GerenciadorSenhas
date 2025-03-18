@@ -99,22 +99,18 @@ namespace Presentation.Views
         {
 
         }
-
         private void btnGerarCredencialAleatoria_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
         private void btnConfigurarSenha_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
         private void btnGerarSenhaAleatoria_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
         private void btnExibirSenha_Click(object sender, RoutedEventArgs e)
         {
             if (txtSenha.Visibility == Visibility.Visible)
@@ -130,12 +126,10 @@ namespace Presentation.Views
                 txtSenhaVisivel.Visibility = Visibility.Collapsed;
             }
         }
-
         private void btnCadastrarCategoria_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
         private void txtSenha_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (txtSenha.IsVisible)
@@ -151,41 +145,46 @@ namespace Presentation.Views
         #region Metodos
         private void AtualizarComponentes()
         {
-            if (GSCredencialAtualizada.PK_GSCredencial == 0)
+            try
             {
-                lblTitulo.Content = "Cadastrar Credencial";
-
-                txtCredencial.Text = "";
-                txtSenha.Password = "";
-                cboCategoria.ViewModel.SelecionarItemPorID("0");
-            }
-            else
-            {
-                lblTitulo.Content = "Atualizar Credencial";
-
-                var criptografiaRequest = new CriptografiaRequest { Valor = GSCredencialAtualizada.Senha, IV = GSCredencialAtualizada.IVSenha };
-                string senha = _configuracaoAppService.Descriptografar(criptografiaRequest);
-
-                if (!criptografiaRequest.ValidarResultado.EhValido)
+                if (GSCredencialAtualizada.PK_GSCredencial == 0)
                 {
-                    // AVISAR ERRO COM MENSAGEM PERSONALIZADA
-                    this.Close();
-                    throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
+                    lblTitulo.Content = "Cadastrar Credencial";
+
+                    txtCredencial.Text = "";
+                    txtSenha.Password = "";
+                    cboCategoria.ViewModel.SelecionarItemPorIndice(0);
+                }
+                else
+                {
+                    lblTitulo.Content = "Atualizar Credencial";
+
+                    var criptografiaRequest = new CriptografiaRequest { Valor = GSCredencialAtualizada.Senha, IV = GSCredencialAtualizada.IVSenha };
+                    string senha = _configuracaoAppService.Descriptografar(criptografiaRequest);
+
+                    if (!criptografiaRequest.ValidarResultado.EhValido)
+                        throw new Exception(criptografiaRequest.ValidarResultado.Erros.ToList()[0]);
+
+                    txtSenha.Password = senha;
+                    txtCredencial.Text = GSCredencialAtualizada.Credencial;
+
+                    if (GSCredencialAtualizada.FK_GSCategoria != null)
+                        cboCategoria.ViewModel.SelecionarItemPorID(GSCredencialAtualizada.FK_GSCategoria.ObterValorOuPadrao(0));
                 }
 
-                txtSenha.Password = senha;
-                txtCredencial.Text = GSCredencialAtualizada.Credencial;
-
-                if (GSCredencialAtualizada.FK_GSCategoria != null)
-                    cboCategoria.ViewModel.SelecionarItemPorID(GSCredencialAtualizada.FK_GSCategoria.ObterValorOuPadrao(0));
+                txtCredencial.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                this.Close();
             }
 
-            txtCredencial.Focus();
         }
         private void BindComboBoxCategoria()
         {
             cboCategoria.ViewModel.Itens = _credencialAppService.ObterCategoriasObservableCollection();
-            cboCategoria.ViewModel.SelecionarItemPorID("0");
+            cboCategoria.ViewModel.SelecionarItemPorIndice(0); 
         }
         public void Dispose()
         {

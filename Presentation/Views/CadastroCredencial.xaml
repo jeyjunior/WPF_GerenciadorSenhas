@@ -55,7 +55,7 @@
                 </Button>
             </Grid>
 
-            <TextBox Grid.Row="2" x:Name="txtCredencial" Style="{StaticResource TextBoxStyle}"/>
+            <TextBox Grid.Row="2" x:Name="txtCredencial" Style="{StaticResource TxbPadrao18_Normal}"/>
         </Grid>
 
         <Grid Grid.Row="3">
@@ -89,9 +89,12 @@
                     <ColumnDefinition Width="48"/>
                 </Grid.ColumnDefinitions>
 
-                <PasswordBox Grid.Column="0" x:Name="txtSenha" PasswordChanged="txtSenha_PasswordChanged"  Password="" VerticalContentAlignment="Center" Visibility="Visible" AllowDrop="True"/>
-                <TextBox x:Name="txtSenhaVisivel" Grid.Column="0" TextChanged="txtSenhaVisivel_TextChanged" VerticalContentAlignment="Center" Visibility="Collapsed" Style="{StaticResource TextBoxStyle}"/>
-                <Button Grid.Column="1" x:Name="btnExibirSenha" Click="btnExibirSenha_Click"/>
+                <PasswordBox Grid.Column="0" x:Name="txtSenha" PasswordChanged="txtSenha_PasswordChanged"  Password="" VerticalContentAlignment="Center" Visibility="Visible" AllowDrop="True"  Style="{StaticResource PwbPadrao18_Normal}"/>
+                <TextBox x:Name="txtSenhaVisivel" Grid.Column="0" TextChanged="txtSenhaVisivel_TextChanged" VerticalContentAlignment="Center" Visibility="Collapsed" Style="{StaticResource TxbPadrao18_Normal}"/>
+
+                <Button Grid.Column="1" x:Name="btnExibirSenha" Click="btnExibirSenha_Click" Style="{StaticResource btnPadrao42}"  Background="{DynamicResource Cinza8}" ToolTip="Configurar o modelo de senha aleatória">
+                    <TextBlock Style="{StaticResource txbGlyphTemplate20Bold}" Text="&#xE7B3;"/>
+                </Button>
             </Grid>
         </Grid>
 
