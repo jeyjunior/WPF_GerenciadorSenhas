@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
     <SolidColorBrush x:Key="Verde1" Color="#FF33AB2C"/>
     <SolidColorBrush x:Key="Verde2" Color="#FF2C8D28"/>
     <SolidColorBrush x:Key="Verde3" Color="#FF1F671C"/>
@@ -86,10 +85,9 @@
     <SolidColorBrush x:Key="Cinza13Transp40" Color="#99121212"/>
     <SolidColorBrush x:Key="Cinza13Transp50" Color="#80121212"/>
 
-    
+
     <SolidColorBrush x:Key="Nenhuma" Color="#00000000"/>
 
     <SolidColorBrush x:Key="Branco" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="Preto" Color="#FF000000"/>
-    
 </ResourceDictionary>

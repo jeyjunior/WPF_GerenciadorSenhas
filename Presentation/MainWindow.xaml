@@ -1,0 +1,55 @@
+﻿<Window x:Class="Presentation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Style="{StaticResource MaterialDesignWindow}"
+        Background="{DynamicResource Cinza12}"
+        Title="MainWindow" Height="450" Width="850">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="48"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="42"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="40*" MinWidth="200"/>
+                <ColumnDefinition Width="42"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="42"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Grid.Column="0" Background="{DynamicResource Cinza10}" Padding="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Button Grid.Column="1" Padding="0" Background="{DynamicResource Cinza10}" Height="42" Width="42">
+                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE710;" Foreground="{DynamicResource Branco}" FontWeight="Bold"/>
+            </Button>
+
+            <ComboBox Grid.Column="3" Background="{DynamicResource Cinza10}" Padding="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <TextBox Grid.Column="4" Background="{DynamicResource Cinza9}" Foreground="{DynamicResource Branco}" Padding="6,0,0,0"/>
+            <Button Grid.Column="5" Padding="0" Background="{DynamicResource Cinza10}" Height="42" Width="42">
+                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE713;" Foreground="{DynamicResource Branco}"/>
+            </Button>
+
+            <Button Grid.Column="7" Padding="0" Background="{DynamicResource Cinza10}" Height="42" Width="42">
+                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE713;" Foreground="{DynamicResource Branco}"/>
+            </Button>
+
+            <Button Grid.Column="8" Padding="0" Background="{DynamicResource Verde1}" Height="42" Width="80">
+                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE710;" Foreground="{DynamicResource Branco}" FontWeight="Bold"/>
+            </Button>
+
+            
+        </Grid>
+    </Grid>
+</Window>

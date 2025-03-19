@@ -1,27 +1,16 @@
 ﻿<Application x:Class="Presentation.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Presentation"
-             StartupUri="Views/Principal.xaml"
-             Startup="Application_Startup"
-             xmlns:conversores="clr-namespace:Presentation.Conversores"
-             LoadCompleted="Application_LoadCompleted">
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/Cor/Cores.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/TextBlockStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ScrollBarStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ButtonStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/TextBoxStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ComboBoxStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/CredencialListBoxStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/ListBoxStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Estilos/PasswordBoxStyle.xaml"/>
+                <materialDesign:BundledTheme BaseTheme="Dark" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Presentation;component/Themes/Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <conversores:ConversorLargura x:Key="ConversorLargura"/>
-            
         </ResourceDictionary>
     </Application.Resources>
 </Application>
