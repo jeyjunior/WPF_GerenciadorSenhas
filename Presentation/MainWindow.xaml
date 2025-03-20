@@ -4,52 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
-        Background="{DynamicResource Cinza12}"
         Title="MainWindow" Height="450" Width="850">
     <Grid Margin="12">
         <Grid.RowDefinitions>
-            <RowDefinition Height="42"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="8"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="42"/>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="40*" MinWidth="200"/>
-                <ColumnDefinition Width="42"/>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="42"/>
-                <ColumnDefinition Width="80"/>
-            </Grid.ColumnDefinitions>
+        <md:Card UniformCornerRadius="6">
+            <Grid Margin="18,0">
+                <Grid.ColumnDefinitions>
+                    <!-- Ordenação -->
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="32"/>
 
-            <ComboBox Grid.Column="0" Background="{DynamicResource Cinza10}" Padding="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <Button Grid.Column="1" Padding="0" Background="{DynamicResource Cinza10}" Height="42" Width="42">
-                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE710;" Foreground="{DynamicResource Branco}" FontWeight="Bold"/>
-            </Button>
+                    <!-- Pesquisa -->
+                    <ColumnDefinition Width="*"/>
 
-            <ComboBox Grid.Column="3" Background="{DynamicResource Cinza10}" Padding="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <TextBox Grid.Column="4" Background="{DynamicResource Cinza9}" Foreground="{DynamicResource Branco}" Padding="6,0,0,0"/>
-            <Button Grid.Column="5" Padding="0" Background="{DynamicResource Cinza10}" Height="42" Width="42">
-                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE713;" Foreground="{DynamicResource Branco}"/>
-            </Button>
+                </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="7" Padding="0" Background="{DynamicResource Cinza10}" Height="42" Width="42">
-                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE713;" Foreground="{DynamicResource Branco}"/>
-            </Button>
+                <!-- Ordenação -->
+                <ComboBox Grid.Column="0" Style="{DynamicResource MaterialDesignComboBox}" HorizontalContentAlignment="Center" Foreground="{DynamicResource Branco}">
+                    <ComboBoxItem IsSelected="True">Tudo</ComboBoxItem>
+                    <ComboBoxItem IsSelected="False">Categoria</ComboBoxItem>
+                    <ComboBoxItem IsSelected="False">Credencial</ComboBoxItem>
+                </ComboBox>
 
-            <Button Grid.Column="8" Padding="0" Background="{DynamicResource Verde1}" Height="42" Width="80">
-                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xE710;" Foreground="{DynamicResource Branco}" FontWeight="Bold"/>
-            </Button>
+                <TextBox Grid.Column="2"  Style="{DynamicResource MaterialDesignTextBox}" Height="26" Padding="6,0,0,0" md:HintAssist.Hint="Pesquisar" Foreground="{DynamicResource Branco}"/>
 
-            
-        </Grid>
+                <Button Grid.Column="4" Style="{DynamicResource MaterialDesignRaisedButton}" Padding="0" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <md:PackIcon Grid.Column="2" Kind="Search" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Branco}"/>
+                </Button>
+            </Grid>
+        </md:Card>
     </Grid>
 </Window>
