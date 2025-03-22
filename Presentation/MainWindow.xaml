@@ -7,7 +7,14 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
-        Title="MainWindow" Height="450" Width="850">
+        Background="{StaticResource Cinza12}"
+        Title="MainWindow" 
+        Height="450" 
+        Width="850" 
+        MinWidth="820"
+        Loaded="Window_Loaded">
+
+
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -16,7 +23,7 @@
             <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
 
-        <md:Card UniformCornerRadius="6">
+        <md:Card Grid.Column="0" Background="{StaticResource Cinza10}">
             <Grid Margin="18,0">
                 <Grid.ColumnDefinitions>
                     <!-- Ordenação -->
@@ -32,7 +39,7 @@
                     <ColumnDefinition Width="300"/>
                     <ColumnDefinition Width="8"/>
                     <ColumnDefinition Width="32"/>
-                    
+
                     <ColumnDefinition Width="*"/>
 
                     <!-- Configuração e Adicionar -->
@@ -43,38 +50,49 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Ordenação -->
-                <ComboBox Grid.Column="0" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Height="26" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center">
-                    <ComboBoxItem IsSelected="True">Modificação</ComboBoxItem>
-                    <ComboBoxItem IsSelected="False">Categoria</ComboBoxItem>
-                    <ComboBoxItem IsSelected="False">Credencial</ComboBoxItem>
-                </ComboBox>
+                <ComboBox Grid.Column="0" 
+                          x:Name="cboTipoDeOrdenacao"
+                          ItemsSource="{Binding TipoDeOrdenacao}"
+                          DisplayMemberPath="Valor"
+                          SelectedItem="{Binding TipoDeOrdenacaoSelecionado, Mode=TwoWay}"
+                          Style="{DynamicResource MaterialDesignFloatingHintComboBox}" 
+                          Height="26" 
+                          Padding="0" 
+                          HorizontalContentAlignment="Center" 
+                          VerticalAlignment="Center"/>
 
-                <Button Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" Padding="0" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource Cinza7}">
+                <Button Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" Padding="0" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource Cinza9}" >
                     <md:PackIcon Grid.Column="2" Kind="Sort" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Branco}"/>
                 </Button>
-                
+
                 <!-- Pesquisa -->
-                <ComboBox Grid.Column="4" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Height="26" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center">
-                    <ComboBoxItem IsSelected="True">Tudo</ComboBoxItem>
-                    <ComboBoxItem IsSelected="False">Categoria</ComboBoxItem>
-                    <ComboBoxItem IsSelected="False">Credencial</ComboBoxItem>
-                </ComboBox>
+                <ComboBox Grid.Column="4" 
+                          x:Name="cboTipoDePesquisa"
+                          ItemsSource="{Binding TipoDePesquisa}"
+                          DisplayMemberPath="Valor"
+                          SelectedItem="{Binding TipoDePesquisaSelecionado, Mode=TwoWay}"
+                          Style="{DynamicResource MaterialDesignFloatingHintComboBox}" 
+                          Height="26" 
+                          Padding="0" 
+                          HorizontalContentAlignment="Center" 
+                          VerticalAlignment="Center"/>
 
-                <TextBox Grid.Column="6"  Style="{DynamicResource MaterialDesignTextBox}" Height="26" Padding="6,0,0,0" md:HintAssist.Hint="Pesquisar"/>
 
-                <Button Grid.Column="8" Style="{DynamicResource MaterialDesignRaisedButton}" Padding="0" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <md:PackIcon Grid.Column="2" Kind="Search" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Branco}"/>
+                <TextBox Grid.Column="6"  Style="{DynamicResource MaterialDesignTextBox}" Height="26" Padding="6,0,0,0" md:HintAssist.Hint="Pesquisar" Foreground="{StaticResource Branco}"/>
+
+                <Button Grid.Column="8" Style="{DynamicResource MaterialDesignRaisedButton}" Padding="0" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <md:PackIcon Grid.Column="2" Kind="Search" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Branco}"/>
                 </Button>
 
                 <!-- Configuração e Adicionar -->
-                <Button Grid.Column="10" Style="{DynamicResource MaterialDesignFlatButton}" Padding="0" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource Cinza7}">
+                <Button Grid.Column="10" Style="{DynamicResource MaterialDesignFlatButton}" Padding="0" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource Cinza9}" >
                     <md:PackIcon Grid.Column="2" Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Branco}"/>
                 </Button>
 
-                <Button Grid.Column="12" Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" Padding="0" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{StaticResource Verde2}" BorderThickness="0">
+                <Button Grid.Column="12" Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" Background="{StaticResource Verde2}" Padding="0" Height="32" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="0">
                     <StackPanel Orientation="Horizontal">
-                        <md:PackIcon Grid.Column="2" Kind="Add" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Branco}" />
-                        <TextBlock Text="Adicionar" Foreground="{StaticResource Branco}" VerticalAlignment="Center"/>
+                        <md:PackIcon Grid.Column="2" Kind="Add" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Branco}"/>
+                        <TextBlock Text="Adicionar" VerticalAlignment="Center" Foreground="{StaticResource Branco}"/>
                     </StackPanel>
                 </Button>
             </Grid>

@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using Application;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -9,6 +10,10 @@ namespace Presentation
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            Bootstrap.Inicializar();
+        }
     }
-
 }

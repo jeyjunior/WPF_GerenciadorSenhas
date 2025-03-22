@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="JJ.NET.Core">
+      <HintPath>..\DLL\JJ.NET.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
